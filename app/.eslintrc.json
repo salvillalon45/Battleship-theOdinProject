@@ -1,35 +1,36 @@
 {
-    "env": {
-        "browser": true,
-        "es2021": true
-    },
-    "extends": [
-        "plugin:react/recommended",
-        "airbnb",
-        "prettier"
-    ],
-    "parserOptions": {
-        "ecmaFeatures": {
-            "jsx": true
-        },
-        "ecmaVersion": 12,
-        "sourceType": "module"
-    },
-    "plugins": [
-        "react",
-        "prettier"
-    ],
-    "rules": {
-        "object-shorthand": "off",
-        "func-names": ["off"],
-        "comma-dangle": ["error", "never"],
-        "prettier/prettier": [
-            "error", {
-            "singleQuote": true,
-            "endOfLine":"auto",
-            "useTabs": true,
-            "tabWidth": 4,
-            "trailingComma": "none"
-        }]
-    }
+	"env": {
+		"browser": true,
+		"es2021": true
+	},
+	"extends": ["plugin:react/recommended", "airbnb", "prettier"],
+	"parserOptions": {
+		"ecmaFeatures": {
+			"jsx": true
+		},
+		"ecmaVersion": 12,
+		"sourceType": "module"
+	},
+	"plugins": ["react", "prettier"],
+	"rules": {
+		"react/jsx-indent": "off",
+		"react/react-in-jsx-scope": "off",
+		"react/jsx-filename-extension": "off",
+		"object-shorthand": "off",
+		"func-names": ["off"],
+		"comma-dangle": ["error", "never"],
+		"react/prop-types": "off",
+		"react/jsx-indent-props": "off",
+		"prettier/prettier": [
+			"error",
+			{
+				"jsxSingleQuote": true,
+				"singleQuote": true,
+				"endOfLine": "auto",
+				"useTabs": true,
+				"tabWidth": 4,
+				"trailingComma": "none"
+			}
+		]
+	}
 }
