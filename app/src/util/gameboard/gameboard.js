@@ -22,10 +22,17 @@ const GameBoardFactory = function () {
 			const shipCoords = ship.coordinates;
 
 			return shipCoords.map((shipCoord, index) => {
+				const shipCoord1 = shipCoord[0];
+				const shipCoord2 = shipCoord[1];
+				const hitCoord1 = hitCoords[0];
+				const hitCoord2 = hitCoords[1];
 				if (ship.shipArray[index] === 'hit') {
 					// Cannot hit the same coordinate
 					repeatedMovedFlag = 1;
-				} else if (shipCoord === hitCoords) {
+				} else if (
+					shipCoord1 === hitCoord1 &&
+					shipCoord2 === hitCoord2
+				) {
 					// We got a hit!
 					hitFlag = 1;
 					printToTerminal('We got a hit!');
@@ -42,7 +49,7 @@ const GameBoardFactory = function () {
 
 		if (hitFlag === 0) {
 			// We missed
-			printToTerminal('We We missed');
+			printToTerminal('We missed');
 			missedShots.push(hitCoords);
 		}
 	}

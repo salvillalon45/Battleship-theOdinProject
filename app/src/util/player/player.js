@@ -3,6 +3,8 @@
 // Desc: Contains the factory function for player
 // --------------------------------------------------
 
+import GameBoardFactory from '../gameboard';
+
 const PlayerFactory = function () {
 	function sendAttack(gameboard, hitCoords) {
 		gameboard.receiveAttack(hitCoords);

@@ -1,3 +1,3 @@
-import PlayerFactory from './player';
+import { PlayerFactory, ComputerFactory } from './player';
 
-export default PlayerFactory;
+export { PlayerFactory, ComputerFactory };

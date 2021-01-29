@@ -14,9 +14,16 @@ function App() {
 	const [grid, setGrid] = useState('');
 	const [pcGrid, setPCGrid] = useState('');
 	const [pcUIGrid, setPCUIGrid] = useState('');
+	const [playerGameboard, setPlayerGameboard] = useState('');
+	const [computerGameboard, setComputerGameboard] = useState('');
 
 	function handleNextStepChange(nextStepChange) {
 		setNextStep(nextStepChange);
+	}
+
+	function handleGameSetUp(playerGameboardChange, computerGameboardChange) {
+		setPlayerGameboard(playerGameboardChange);
+		setComputerGameboard(computerGameboardChange);
 	}
 
 	function handleGridSetUp(
@@ -38,6 +45,7 @@ function App() {
 					handleNextStepChange={handleNextStepChange}
 					playerName={playerName}
 					handleGridSetUp={handleGridSetUp}
+					handleGameSetUp={handleGameSetUp}
 				/>
 			);
 		}
@@ -50,6 +58,8 @@ function App() {
 					pcGrid={pcGrid}
 					pcUIGrid={pcUIGrid}
 					playerName={playerName}
+					playerGameboard={playerGameboard}
+					computerGameboard={computerGameboard}
 				/>
 			);
 		}
