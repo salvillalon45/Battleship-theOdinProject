@@ -22,7 +22,7 @@ const ShipFactory = function (coordinates) {
 		hit,
 		isSunk,
 		coordinates,
-		shipArray,
+		shipArray
 	};
 };
 

@@ -58,7 +58,7 @@ const GameBoardFactory = function () {
 		receiveAttack,
 		reportSunkShips,
 		shipArrayBoard,
-		missedShots,
+		missedShots
 	};
 };
 

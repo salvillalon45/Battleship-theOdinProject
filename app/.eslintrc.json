@@ -18,9 +18,14 @@
 		"react/jsx-filename-extension": "off",
 		"object-shorthand": "off",
 		"func-names": ["off"],
-		"comma-dangle": ["error", "never"],
+		"comma-dangle": ["off", "error", "never"],
 		"react/prop-types": "off",
 		"react/jsx-indent-props": "off",
+		"no-unused-vars": "off",
+		"consistent-return": "off",
+		"array-callback-return": "off",
+		"no-plusplus": "off",
+		"react/jsx-curly-newline": "off",
 		"prettier/prettier": [
 			"error",
 			{

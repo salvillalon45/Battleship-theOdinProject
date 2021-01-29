@@ -1,27 +1,59 @@
 import { React, useState } from 'react';
-import '../styles/global.less';
 import 'bootstrap/dist/css/bootstrap.min.css';
+import '../styles/global.css';
 
 import Layout from './reusable/Layout';
 import Intro from './Intro';
 import GameboardSetup from './GameboardSetup';
+import PlayGame from './PlayGame';
 
 function App() {
 	const [nextStep, setNextStep] = useState('');
 	const [playerName, setPlayerName] = useState('');
+	const [uiGrid, setUIGrid] = useState('');
+	const [grid, setGrid] = useState('');
+	const [pcGrid, setPCGrid] = useState('');
+	const [pcUIGrid, setPCUIGrid] = useState('');
 
 	function handleNextStepChange(nextStepChange) {
 		setNextStep(nextStepChange);
 	}
 
+	function handleGridSetUp(
+		uiGridChange,
+		gridChange,
+		pcUIGridChange,
+		pcGridChange
+	) {
+		setGrid(gridChange);
+		setUIGrid(uiGridChange);
+		setPCGrid(pcGridChange);
+		setPCUIGrid(pcUIGridChange);
+	}
+
 	function showNextComponent() {
-		console.log(playerName);
 		if (nextStep === 2) {
-			return <GameboardSetup playerName={playerName} />;
+			return (
+				<GameboardSetup
+					handleNextStepChange={handleNextStepChange}
+					playerName={playerName}
+					handleGridSetUp={handleGridSetUp}
+				/>
+			);
 		}
-		// } else if (nextStep === 3) {
-		// 	// return
-		// }
+
+		if (nextStep === 3) {
+			return (
+				<PlayGame
+					grid={grid}
+					uiGrid={uiGrid}
+					pcGrid={pcGrid}
+					pcUIGrid={pcUIGrid}
+					playerName={playerName}
+				/>
+			);
+		}
+
 		return (
 			<Intro
 				handleNextStepChange={handleNextStepChange}

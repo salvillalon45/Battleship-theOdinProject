@@ -6,10 +6,6 @@
 // -----------------------------------------------
 
 // -----------------------------------------------
-// Redux
-// -----------------------------------------------
-
-// -----------------------------------------------
 // Necessary Imports
 import { React, useReducer } from 'react';
 // -----------------------------------------------
@@ -23,6 +19,7 @@ import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 // -----------------------------------------------
+
 function Intro(props) {
 	const [userInput, setUserInput] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
@@ -34,8 +31,7 @@ function Intro(props) {
 	function onChange(event) {
 		const { name } = event.target;
 		const newValue = event.target.value;
-		console.log('event.target::', event.target);
-		console.log('event.target.value::', event.target.value);
+
 		setUserInput({
 			[name]: newValue
 		});
@@ -52,7 +48,6 @@ function Intro(props) {
 
 	return (
 		<Container>
-			{console.log({ playerName })}
 			<Row>
 				<Col>
 					<InputGroup className='mb-3'>

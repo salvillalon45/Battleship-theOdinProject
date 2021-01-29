@@ -1,0 +1,22 @@
+/* ----------------------------------------------- */
+/* 
+/* Styling for the entire app Styling */
+/* 
+/* ----------------------------------------------- */
+
+/* Bootstrap and Fonts */
+/* ----------------------------------------------- */
+@import url('https://fonts.googleapis.com/css2?family=Open+Sans&family=Source+Sans+Pro&display=swap');
+
+/* Reusable Components */
+/* ----------------------------------------------- */
+@import '../components/reusable/reusable.css';
+
+/* Game Components */
+/* ----------------------------------------------- */
+@import '../components/Intro/Intro.css';
+@import '../components/GameboardSetup/GameboardSetup.css';
+
+.coloredCell {
+	background-color: aquamarine;
+}
