@@ -66,12 +66,36 @@ const GameBoardFactory = function () {
 		return shipStatusArray.every((shipStatus) => shipStatus === true);
 	}
 
+	function calculateShipPlacement(shipLength, shipCoordinate) {
+		const coord1 = shipCoordinate[0];
+		const coord2 = shipCoordinate[0];
+		const placementCoordinates = [];
+		let coord = [];
+
+		console.log(shipCoordinate);
+		console.log({ shipLength });
+		const result = coord2 + (shipLength - 1);
+
+		for (let i = 0; i < shipLength; i++) {
+			coord.push(coord1);
+			coord.push(i);
+			placementCoordinates.push(coord);
+			coord = [];
+		}
+
+		console.log({ result });
+		console.log({ placementCoordinates });
+
+		return placementCoordinates;
+	}
+
 	return {
 		placeShip,
 		receiveAttack,
 		reportSunkShips,
 		shipArrayBoard,
-		missedShots
+		missedShots,
+		calculateShipPlacement
 	};
 };
 

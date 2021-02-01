@@ -137,15 +137,12 @@ function PlayGame(props) {
 		if (computerGameboard.reportSunkShips()) {
 			console.log('HUMAN PLAYER WINS!');
 			setWinner(playerName);
-			return 'Player Wins';
-		}
-		if (playerGameboard.reportSunkShips()) {
+		} else if (playerGameboard.reportSunkShips()) {
 			console.log('COMPUTER PLAYER WINS!');
 			setWinner('Computer');
-			return 'Computer Wins';
+		} else {
+			setWinner('');
 		}
-
-		setWinner('');
 	}
 
 	function determineTurn() {
@@ -168,6 +165,7 @@ function PlayGame(props) {
 				updateGrid(computerGameboard, 'pcGrid');
 				updateUIGrid('pcGrid');
 				checkWinner();
+				determineTurn();
 			});
 		}
 	}, []);
