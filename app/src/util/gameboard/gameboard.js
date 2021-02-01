@@ -26,8 +26,14 @@ const GameBoardFactory = function () {
 				const shipCoord2 = shipCoord[1];
 				const hitCoord1 = hitCoords[0];
 				const hitCoord2 = hitCoords[1];
-				if (ship.shipArray[index] === 'hit') {
+
+				if (
+					shipCoord1 === hitCoord1 &&
+					shipCoord2 === hitCoord2 &&
+					ship.shipArray[index] === 'hit'
+				) {
 					// Cannot hit the same coordinate
+					console.log('Enter cannot hit same coordiante flag');
 					repeatedMovedFlag = 1;
 				} else if (
 					shipCoord1 === hitCoord1 &&

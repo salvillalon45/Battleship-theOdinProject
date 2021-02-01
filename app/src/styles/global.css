@@ -17,6 +17,13 @@
 @import '../components/Intro/Intro.css';
 @import '../components/GameboardSetup/GameboardSetup.css';
 
+html,
+body {
+	margin: 0;
+	padding: 0;
+	box-sizing: border-box;
+}
+
 .shipPlaced {
 	background-color: aquamarine;
 }

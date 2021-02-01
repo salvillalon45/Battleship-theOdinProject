@@ -60,6 +60,7 @@ function App() {
 					playerName={playerName}
 					playerGameboard={playerGameboard}
 					computerGameboard={computerGameboard}
+					handleNextStepChange={handleNextStepChange}
 				/>
 			);
 		}

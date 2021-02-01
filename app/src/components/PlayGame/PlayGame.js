@@ -9,7 +9,7 @@
 
 // -----------------------------------------------
 // Necessary Imports
-import { React, useState, useReducer, useEffect } from 'react';
+import { React, useReducer, useEffect, useState } from 'react';
 // -----------------------------------------------
 
 // -----------------------------------------------
@@ -20,6 +20,7 @@ import { React, useState, useReducer, useEffect } from 'react';
 // import Row from 'react-bootstrap/Row';
 // import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+import PopUp from '../reusable/PopUp';
 // -----------------------------------------------
 
 // -----------------------------------------------
@@ -28,12 +29,14 @@ import { PlayerFactory, ComputerFactory } from '../../util/player';
 // -----------------------------------------------
 
 function PlayGame(props) {
-	const { playerGameboard, computerGameboard } = props;
-	const { playerName } = props;
+	const { playerGameboard, computerGameboard, playerName } = props;
 	// let { grid } = props;
 	// let { uiGrid } = props;
 	// let { pcGrid } = props;
 	// let { pcUIGrid } = props;
+	const [winner, setWinner] = useState('');
+	const [playerTurn, setPlayerTurn] = useState(true);
+	const [computerTurn, setComputerTurn] = useState(false);
 	const [grids, setGrids] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
 		{
@@ -130,6 +133,26 @@ function PlayGame(props) {
 		}
 	}
 
+	function checkWinner() {
+		if (computerGameboard.reportSunkShips()) {
+			console.log('HUMAN PLAYER WINS!');
+			setWinner(playerName);
+			return 'Player Wins';
+		}
+		if (playerGameboard.reportSunkShips()) {
+			console.log('COMPUTER PLAYER WINS!');
+			setWinner('Computer');
+			return 'Computer Wins';
+		}
+
+		setWinner('');
+	}
+
+	function determineTurn() {
+		setPlayerTurn(!playerTurn);
+		setComputerTurn(!computerTurn);
+	}
+
 	useEffect(() => {
 		const gameCellArray = Array.from(document.querySelectorAll('.cell'));
 
@@ -144,6 +167,7 @@ function PlayGame(props) {
 
 				updateGrid(computerGameboard, 'pcGrid');
 				updateUIGrid('pcGrid');
+				checkWinner();
 			});
 		}
 	}, []);
@@ -155,10 +179,18 @@ function PlayGame(props) {
 			{console.log('What is pcGrid')}
 			{console.log(pcGrid)}
 			<p>{playerName}</p>
+
+			<p>{winner}</p>
+
+			{winner && (
+				<PopUp
+					winner={winner}
+					handleNextStepChange={props.handleNextStepChange}
+				/>
+			)}
+
 			<div className='table'>{uiGrid}</div>
 			<div className='table'>{pcUIGrid}</div>
-
-			{/* <Button onClick={() => nextStep()}>Get Ready!</Button> */}
 		</div>
 	);
 }
