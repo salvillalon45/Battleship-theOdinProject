@@ -67,24 +67,27 @@ const GameBoardFactory = function () {
 	}
 
 	function calculateShipPlacement(shipLength, shipCoordinate) {
+		// printToTerminal('Inside calculateShipPlacement');
+		// console.log({ shipCoordinate });
+		// console.log({ shipLength });
 		const coord1 = shipCoordinate[0];
-		const coord2 = shipCoordinate[0];
+		const coord2 = shipCoordinate[1];
 		const placementCoordinates = [];
 		let coord = [];
 
-		console.log(shipCoordinate);
-		console.log({ shipLength });
 		const result = coord2 + (shipLength - 1);
+		let coord2Change = coord2;
 
 		for (let i = 0; i < shipLength; i++) {
 			coord.push(coord1);
-			coord.push(i);
+			coord.push(coord2Change);
 			placementCoordinates.push(coord);
 			coord = [];
+			coord2Change += 1;
 		}
 
-		console.log({ result });
-		console.log({ placementCoordinates });
+		// console.log({ result });
+		// console.log({ placementCoordinates });
 
 		return placementCoordinates;
 	}
