@@ -7,7 +7,14 @@
 
 // -----------------------------------------------
 // Necessary Imports
-import { React, useState, useEffect, useReducer, useLayoutEffect } from 'react';
+import {
+	React,
+	useState,
+	useEffect,
+	useReducer,
+	useLayoutEffect,
+	useRef
+} from 'react';
 // -----------------------------------------------
 
 // -----------------------------------------------
@@ -21,9 +28,10 @@ import GameBoardFactory from '../../util/gameboard';
 import printToTerminal from '../../util/helper/helper';
 // -----------------------------------------------
 
+const playerGameboard = GameBoardFactory();
+
 function GameboardSetup(props) {
 	const { playerName } = props;
-	const playerGameboard = GameBoardFactory();
 	// playerGameboard.placeShip([
 	// 	[0, 0],
 	// 	[0, 1],
@@ -57,6 +65,7 @@ function GameboardSetup(props) {
 		[8, 6]
 	]);
 	computerGameboard.placeShip([[6, 7]]);
+
 	const [grids, setGrids] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
 		{
@@ -66,16 +75,27 @@ function GameboardSetup(props) {
 			pcGrid: ''
 		}
 	);
-	const [ships, setShips] = useReducer(
-		(state, newState) => ({ ...state, ...newState }),
-		{
-			carrier: 1,
-			battleship: 1,
-			cruiser: 1,
-			submarine: 1,
-			destroyer: 1
-		}
-	);
+
+	const [ships, _setShips] = useState({
+		carrier: [5, 1],
+		battleship: [4, 1],
+		cruiser: [3, 1],
+		submarine: [3, 1],
+		destroyer: [2, 1]
+	});
+	const shipsRef = useRef(ships);
+	const setShips = (shipName, shipAvailability) => {
+		shipsRef.current[shipName][1] = shipAvailability;
+		_setShips({ ...shipsRef.current });
+	};
+
+	// This allows us to work with state in event listeners
+	const [shipName, _setShipName] = useState('carrier');
+	const shipNameRef = useRef(shipName);
+	const setShipName = (data) => {
+		shipNameRef.current = data;
+		_setShipName(data);
+	};
 
 	function createGrid(gridType) {
 		const rows = [];
@@ -180,22 +200,24 @@ function GameboardSetup(props) {
 	}
 
 	function nextStep() {
+		console.log('Inside nextStep()');
 		const { uiGrid, grid, pcGrid, pcUIGrid } = grids;
 		props.handleGridSetUp(uiGrid, grid, pcUIGrid, pcGrid);
+		console.log(playerGameboard);
 		props.handleGameSetUp(playerGameboard, computerGameboard);
 		setUpGridWithBoats(computerGameboard.shipArrayBoard, 'pcGrid');
 		props.handleNextStepChange(3);
 	}
 
 	function nextShipToUse() {
-		const shipEntries = Object.entries(ships);
+		const shipEntries = Object.entries(shipsRef.current);
 		let lengthToUse;
 
 		for (let i = 0; i < 5; i++) {
 			const shipObj = shipEntries[i];
 			const name = shipObj[0];
 			// const shipLength = shipObj[1][0];
-			const shipAvailability = shipObj[1];
+			const shipAvailability = shipObj[1][1];
 
 			console.log('Retrieve Info');
 			console.log({ name, shipAvailability });
@@ -203,22 +225,29 @@ function GameboardSetup(props) {
 			if (name === 'carrier' && shipAvailability) {
 				printToTerminal('It is Carrier');
 
-				console.log('What are ships before set()');
-				console.log(ships);
-				console.log(ships[name]);
-				setShips({
-					carrier: 0
-				});
+				// console.log('What are ships before set()');
+				// console.log(ships);
+				// console.log(ships[name]);
+				// setCarrier({
+				// 	carrier: 0
+				// });
+				// setShips({
+				// 	carrier: 0;
+				// });
 				// setShips({
 				// 	[name]: 0
 				// });
-				console.log('What are ships after set');
-				console.log(ships);
-				console.log(ships[name]);
+				// ships.carrier = 0;
+				setShips(name, 0);
+				// ships.carrier[1] = 0;
+				setShipName('battleship');
+				// console.log('What are ships after set');
+				// console.log(ships);
+				// console.log(ships[name]);
 				lengthToUse = 5;
-				setShips({
-					carrier: 0
-				});
+				// setShips({
+				// 	carrier: 0
+				// });
 				return lengthToUse;
 			}
 			if (name === 'battleship' && shipAvailability) {
@@ -226,12 +255,15 @@ function GameboardSetup(props) {
 				// setShips({
 				// 	[name]: 0
 				// });
-				setShips({
-					battleship: 0
-				});
-				console.log('What are ships');
-				console.log(ships);
-				console.log(ships[name]);
+				// setShips({
+				// 	battleship: 0
+				// });
+				setShips(name, 0);
+				// ships.battleship[1] = 0;
+				setShipName('cruiser');
+				// console.log('What are ships');
+				// console.log(ships);
+				// console.log(ships[name]);
 				lengthToUse = 4;
 				return lengthToUse;
 			}
@@ -240,12 +272,15 @@ function GameboardSetup(props) {
 				// setShips({
 				// 	[name]: 0
 				// });
-				setShips({
-					cruiser: 0
-				});
-				console.log('What are ships');
-				console.log(ships);
-				console.log(ships[name]);
+				// setShips({
+				// 	cruiser: 0
+				// });
+				setShips(name, 0);
+				// ships.cruiser[1] = 0;
+				setShipName('submarine');
+				// console.log('What are ships');
+				// console.log(ships);
+				// console.log(ships[name]);
 				lengthToUse = 3;
 				return lengthToUse;
 			}
@@ -254,12 +289,15 @@ function GameboardSetup(props) {
 				// setShips({
 				// 	[name]: 0
 				// });
-				setShips({
-					submarine: 0
-				});
-				console.log('What are ships');
-				console.log(ships);
-				console.log(ships[name]);
+				// setShips({
+				// 	submarine: 0
+				// });
+				setShips(name, 0);
+				// ships.submarine[1] = 0;
+				setShipName('destroyer');
+				// console.log('What are ships');
+				// console.log(ships);
+				// console.log(ships[name]);
 				lengthToUse = 3;
 				return lengthToUse;
 			}
@@ -268,12 +306,14 @@ function GameboardSetup(props) {
 				// setShips({
 				// 	[name]: 0
 				// });
-				setShips({
-					destroyer: 0
-				});
-				console.log('What are ships');
-				console.log(ships);
-				console.log(ships[name]);
+				// setShips({
+				// 	destroyer: 0
+				// });
+				setShips(name, 0);
+				// ships.destroyer[1] = 0;
+				// console.log('What are ships');
+				// console.log(ships);
+				// console.log(ships[name]);
 				lengthToUse = 2;
 				return lengthToUse;
 			}
@@ -287,49 +327,40 @@ function GameboardSetup(props) {
 			const cell = gameCellArray[i];
 
 			cell.addEventListener('click', function (event) {
-				// event.stopPropagation();
-				// event.preventDefault();
 				event.stopImmediatePropagation();
-
 				const coord1 = Number(cell.id.split('')[0]);
 				const coord2 = Number(cell.id.split('')[1]);
+				const updatedShipName = shipNameRef.current;
+				const length = shipsRef.current[updatedShipName][0];
 
-				// console.log({ coord1, coord2 });
-
-				const shipLength = nextShipToUse();
-				const placementCoordinates = playerGameboard.calculateShipPlacement(
-					shipLength,
-					[coord1, coord2]
-				);
-
-				playerGameboard.placeShip(placementCoordinates);
-
-				// console.log(playerGameboard);
-
-				setUpGridWithBoats(playerGameboard.shipArrayBoard, 'grid');
+				if (
+					playerGameboard.checkValidPositionsHorizontal(
+						coord1,
+						coord2,
+						length
+					)
+				) {
+					const shipLength = nextShipToUse();
+					const placementCoordinates = playerGameboard.calculateShipPlacement(
+						shipLength,
+						[coord1, coord2]
+					);
+					console.log('placementCoordinates check');
+					console.log(placementCoordinates);
+					playerGameboard.placeShip(placementCoordinates);
+					console.log('What is playerGameboard');
+					console.log(playerGameboard);
+					setUpGridWithBoats(playerGameboard.shipArrayBoard, 'grid');
+				}
 			});
 		}
 	}
 
 	function checkShipsHaveBeenPlaced() {
-		// console.log('Inside checkShipsHaveBeenPlaced()');
+		// Here check if the ship Availability are zero. If they are zero, that means that
+		// All ships have been placed and we can proceed to play game
 		const shipEntries = Object.entries(ships);
-		// console.log(ships);
-		// console.table(shipEntries);
-		for (let i = 0; i < 5; i++) {
-			const shipObj = shipEntries[i];
-			const shipAvailability = shipObj[1];
-			console.log({ shipAvailability });
-			if (shipAvailability !== true) {
-				// console.log('Not all ships have been placed');
-				// Not all ships have been placed
-				return true;
-			}
-		}
-
-		// All Ships have been placed
-		// console.log('all ships have been placed');
-		return false;
+		return shipEntries.every((shipObj) => shipObj[1][1] === 0);
 	}
 
 	useEffect(() => {
@@ -346,8 +377,10 @@ function GameboardSetup(props) {
 
 	return (
 		<div className='gameboardSetupContainer'>
+			{/* {printToTerminal(playerGameboard)} */}
 			<p>{playerName}, Place Your Boats</p>
 
+			<p>Place {shipName} on the board</p>
 			<div className='table'>{uiGrid}</div>
 
 			{/* <Button
@@ -363,7 +396,7 @@ function GameboardSetup(props) {
 			</Button> */}
 
 			<Button
-				disabled={checkShipsHaveBeenPlaced()}
+				disabled={!checkShipsHaveBeenPlaced()}
 				onClick={() => nextStep()}
 			>
 				Get Ready!

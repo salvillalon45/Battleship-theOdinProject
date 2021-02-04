@@ -10,6 +10,8 @@ const GameBoardFactory = function () {
 	const missedShots = [];
 
 	function placeShip(coordinates) {
+		// console.log('Inside placeShip');
+		// console.log({ coordinates });
 		const shipObj = ShipFactory(coordinates);
 		shipArrayBoard.push(shipObj);
 	}
@@ -62,12 +64,11 @@ const GameBoardFactory = function () {
 
 	function reportSunkShips() {
 		const shipStatusArray = shipArrayBoard.map((ship) => ship.isSunk());
-		printToTerminal(shipStatusArray);
 		return shipStatusArray.every((shipStatus) => shipStatus === true);
 	}
 
 	function calculateShipPlacement(shipLength, shipCoordinate) {
-		// printToTerminal('Inside calculateShipPlacement');
+		console.log('Inside calculateShipPlacement');
 		// console.log({ shipCoordinate });
 		// console.log({ shipLength });
 		const coord1 = shipCoordinate[0];
@@ -86,10 +87,45 @@ const GameBoardFactory = function () {
 			coord2Change += 1;
 		}
 
-		// console.log({ result });
-		// console.log({ placementCoordinates });
+		console.log({ placementCoordinates });
 
 		return placementCoordinates;
+	}
+
+	function checkShipSetUpPlacement(coord1, coord2) {
+		console.log('Inside checkShipSetUpPlacement');
+		console.log({ shipArrayBoard });
+		console.log({ coord1, coord2 });
+		for (let i = 0; i < shipArrayBoard.length; i++) {
+			const shipCoordinates = shipArrayBoard[i].coordinates;
+
+			for (let j = 0; j < shipCoordinates.length; j++) {
+				const coord1Check = shipCoordinates[j][0];
+				const coord2Check = shipCoordinates[j][1];
+				console.log({ coord1Check, coord2Check });
+
+				if (coord1Check === coord1 && coord2Check === coord2) {
+					console.log('SHIP HAS ALREAYD BEEN PLACED THER');
+					return true;
+				}
+			}
+		}
+
+		console.log('PLACE IT');
+		return false;
+	}
+
+	function checkValidPositionsHorizontal(coord1, coord2, shipLength) {
+		const spaceShipWillTakeOnGrid = coord2 + shipLength;
+		// console.log({ coord2, shipLength, spaceShipWillTakeOnGrid });
+		const canShipBePlacedThere = checkShipSetUpPlacement(coord1, coord2);
+		if (spaceShipWillTakeOnGrid <= 10 && !canShipBePlacedThere) {
+			// printToTerminal('You Can Place');
+			return true;
+		}
+
+		// printToTerminal('Cannot Place There');
+		return false;
 	}
 
 	return {
@@ -98,7 +134,8 @@ const GameBoardFactory = function () {
 		reportSunkShips,
 		shipArrayBoard,
 		missedShots,
-		calculateShipPlacement
+		calculateShipPlacement,
+		checkValidPositionsHorizontal
 	};
 };
 
