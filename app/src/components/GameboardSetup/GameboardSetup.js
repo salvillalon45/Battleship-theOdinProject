@@ -31,7 +31,6 @@ import Button from 'react-bootstrap/Button';
 // -----------------------------------------------
 // Util
 import GameBoardFactory from '../../util/gameboard';
-import printToTerminal from '../../util/helper/helper';
 // -----------------------------------------------
 
 const playerGameboard = GameBoardFactory();
@@ -80,7 +79,6 @@ function GameboardSetup(props) {
 		_setShips({ ...shipsRef.current });
 	};
 
-	// This allows us to work with state in event listeners
 	const [shipName, _setShipName] = useState('carrier');
 	const shipNameRef = useRef(shipName);
 	const setShipName = (data) => {
@@ -95,6 +93,7 @@ function GameboardSetup(props) {
 		_setRotate(data);
 	};
 
+	// This function allows us to
 	function createGrid(gridType) {
 		const rows = [];
 		let cols;
@@ -129,7 +128,6 @@ function GameboardSetup(props) {
 	}
 
 	function updateUIGrid(gridType) {
-		console.log({ gridType });
 		const result = grids[gridType].map((row, rowIndex) => {
 			const cells = row.map((col, colIndex) => {
 				const id = String(rowIndex) + String(colIndex);
@@ -253,8 +251,6 @@ function GameboardSetup(props) {
 
 		for (let i = 0; i < gameCellArray.length; i++) {
 			const cell = gameCellArray[i];
-			const updatedShipName = shipNameRef.current;
-			const rotateFlag = rotateRef.current;
 
 			cell.addEventListener('click', function (event) {
 				event.stopImmediatePropagation();
@@ -285,13 +281,13 @@ function GameboardSetup(props) {
 			});
 
 			cell.addEventListener('mouseover', function (event) {
+				event.stopImmediatePropagation();
 				const coord1 = Number(cell.id.split('')[0]);
 				const coord2 = Number(cell.id.split('')[1]);
 				const updatedShipName2 = shipNameRef.current;
 				const length = shipsRef.current[updatedShipName2][0];
 				const rotateFlag2 = rotateRef.current;
 
-				event.stopImmediatePropagation();
 				const placementCoordinates = playerGameboard.calculateShipPlacement(
 					length,
 					[coord1, coord2],
@@ -301,37 +297,17 @@ function GameboardSetup(props) {
 				for (let j = 0; j < placementCoordinates.length; j++) {
 					const strC1 = String(placementCoordinates[j][0]);
 					const strC2 = String(placementCoordinates[j][1]);
-					const intC1 = placementCoordinates[j][0];
-					const intC2 = placementCoordinates[j][1];
 					const id = strC1 + strC2;
-					console.log({ id });
 
-					// if (
-					// 	playerGameboard.checkValidPositionsHorizontal(
-					// 		intC1,
-					// 		intC2,
-					// 		length,
-					// 		rotateFlag2
-					// 	)
-					// ) {
 					if (id.length < 3) {
-						console.log('Adding hoverEffect');
 						cell.classList.remove('notAllowed');
 						document
 							.getElementById(id)
 							.classList.add('hoverEffect');
 					} else {
-						console.log('Not Allowed ', id);
 						cell.classList.add('notAllowed');
 					}
-
-					// }
 				}
-
-				console.log({ placementCoordinates });
-
-				console.log('Hover over cell');
-				console.log({ coord1, coord2 });
 			});
 
 			cell.addEventListener('mouseleave', function (event) {
@@ -339,11 +315,6 @@ function GameboardSetup(props) {
 
 				const updatedShipName3 = shipNameRef.current;
 				const rotateFlag3 = rotateRef.current;
-
-				console.log('What is shipsRef');
-				console.log(shipsRef.current);
-
-				console.log(updatedShipName3);
 
 				const coord1 = Number(cell.id.split('')[0]);
 				const coord2 = Number(cell.id.split('')[1]);
@@ -359,16 +330,12 @@ function GameboardSetup(props) {
 					const c1 = String(placementCoordinates[j][0]);
 					const c2 = String(placementCoordinates[j][1]);
 					const id = c1 + c2;
-					console.log({ id });
 
 					if (id.length < 3) {
 						document
 							.getElementById(id)
 							.classList.remove('hoverEffect');
 					}
-					// } else {
-					// 	document.getElementById(id).classList.add('notAllowed');
-					// }
 				}
 			});
 		}

@@ -168,9 +168,17 @@ function PlayGame(props) {
 		}
 	}
 
-	// function removeComputerGrid() {
+	function removeComputerGridPlacedShips(gridType) {
+		if (gridType === 'pcGrid') {
+			const gameCellArray = Array.from(
+				document.querySelectorAll('.cell')
+			);
 
-	// }
+			for (let i = 0; i < gameCellArray.length; i++) {
+				cell.remove;
+			}
+		}
+	}
 
 	useEffect(() => {
 		updateUIGrid('pcGrid');
