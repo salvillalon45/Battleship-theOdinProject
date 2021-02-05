@@ -168,6 +168,10 @@ function PlayGame(props) {
 		}
 	}
 
+	// function removeComputerGrid() {
+
+	// }
+
 	useEffect(() => {
 		updateUIGrid('pcGrid');
 
@@ -204,8 +208,9 @@ function PlayGame(props) {
 		<Container className='playGameContainer'>
 			<Row>
 				<Col>
-					<p className='whiteText text29 robotoText'>{playerName}</p>
-					<p>{winner}</p>
+					<p className='whiteText text29 robotoText'>
+						{playerName}, make your move!
+					</p>
 
 					{computerMove()}
 
@@ -226,7 +231,13 @@ function PlayGame(props) {
 
 			<Row>
 				<Col>
-					<div className='table'>{pcUIGrid}</div>
+					<p className='whiteText text29 robotoText'>
+						Computer Board
+					</p>
+
+					<div className='table' id='computerGrid'>
+						{pcUIGrid}
+					</div>
 				</Col>
 			</Row>
 		</Container>

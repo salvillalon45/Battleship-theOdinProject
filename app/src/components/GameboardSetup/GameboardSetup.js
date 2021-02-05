@@ -129,6 +129,7 @@ function GameboardSetup(props) {
 	}
 
 	function updateUIGrid(gridType) {
+		console.log({ gridType });
 		const result = grids[gridType].map((row, rowIndex) => {
 			const cells = row.map((col, colIndex) => {
 				const id = String(rowIndex) + String(colIndex);
@@ -252,32 +253,122 @@ function GameboardSetup(props) {
 
 		for (let i = 0; i < gameCellArray.length; i++) {
 			const cell = gameCellArray[i];
+			const updatedShipName = shipNameRef.current;
+			const rotateFlag = rotateRef.current;
 
 			cell.addEventListener('click', function (event) {
 				event.stopImmediatePropagation();
+				const updatedShipName1 = shipNameRef.current;
 				const coord1 = Number(cell.id.split('')[0]);
 				const coord2 = Number(cell.id.split('')[1]);
-				const updatedShipName = shipNameRef.current;
-				const length = shipsRef.current[updatedShipName][0];
-				const rotateFlag = rotateRef.current;
+				const length = shipsRef.current[updatedShipName1][0];
+				const rotateFlag1 = rotateRef.current;
 
 				if (
 					playerGameboard.checkValidPositionsHorizontal(
 						coord1,
 						coord2,
 						length,
-						rotateFlag
+						rotateFlag1
 					)
 				) {
 					const shipLength = nextShipToUse();
 					const placementCoordinates = playerGameboard.calculateShipPlacement(
 						shipLength,
 						[coord1, coord2],
-						rotateFlag
+						rotateFlag1
 					);
 
 					playerGameboard.placeShip(placementCoordinates);
 					setUpGridWithBoats(playerGameboard.shipArrayBoard, 'grid');
+				}
+			});
+
+			cell.addEventListener('mouseover', function (event) {
+				const coord1 = Number(cell.id.split('')[0]);
+				const coord2 = Number(cell.id.split('')[1]);
+				const updatedShipName2 = shipNameRef.current;
+				const length = shipsRef.current[updatedShipName2][0];
+				const rotateFlag2 = rotateRef.current;
+
+				event.stopImmediatePropagation();
+				const placementCoordinates = playerGameboard.calculateShipPlacement(
+					length,
+					[coord1, coord2],
+					rotateFlag2
+				);
+
+				for (let j = 0; j < placementCoordinates.length; j++) {
+					const strC1 = String(placementCoordinates[j][0]);
+					const strC2 = String(placementCoordinates[j][1]);
+					const intC1 = placementCoordinates[j][0];
+					const intC2 = placementCoordinates[j][1];
+					const id = strC1 + strC2;
+					console.log({ id });
+
+					// if (
+					// 	playerGameboard.checkValidPositionsHorizontal(
+					// 		intC1,
+					// 		intC2,
+					// 		length,
+					// 		rotateFlag2
+					// 	)
+					// ) {
+					if (id.length < 3) {
+						console.log('Adding hoverEffect');
+						cell.classList.remove('notAllowed');
+						document
+							.getElementById(id)
+							.classList.add('hoverEffect');
+					} else {
+						console.log('Not Allowed ', id);
+						cell.classList.add('notAllowed');
+					}
+
+					// }
+				}
+
+				console.log({ placementCoordinates });
+
+				console.log('Hover over cell');
+				console.log({ coord1, coord2 });
+			});
+
+			cell.addEventListener('mouseleave', function (event) {
+				event.stopImmediatePropagation();
+
+				const updatedShipName3 = shipNameRef.current;
+				const rotateFlag3 = rotateRef.current;
+
+				console.log('What is shipsRef');
+				console.log(shipsRef.current);
+
+				console.log(updatedShipName3);
+
+				const coord1 = Number(cell.id.split('')[0]);
+				const coord2 = Number(cell.id.split('')[1]);
+				const length = shipsRef.current[updatedShipName3][0];
+
+				const placementCoordinates = playerGameboard.calculateShipPlacement(
+					length,
+					[coord1, coord2],
+					rotateFlag3
+				);
+
+				for (let j = 0; j < placementCoordinates.length; j++) {
+					const c1 = String(placementCoordinates[j][0]);
+					const c2 = String(placementCoordinates[j][1]);
+					const id = c1 + c2;
+					console.log({ id });
+
+					if (id.length < 3) {
+						document
+							.getElementById(id)
+							.classList.remove('hoverEffect');
+					}
+					// } else {
+					// 	document.getElementById(id).classList.add('notAllowed');
+					// }
 				}
 			});
 		}

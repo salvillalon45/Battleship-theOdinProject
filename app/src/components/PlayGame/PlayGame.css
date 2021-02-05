@@ -3,3 +3,8 @@
 /* Play Game Styling */
 /* 
 /* ----------------------------------------------- */
+
+.playGameContainer p {
+	margin-top: 25px;
+	text-align: center;
+}

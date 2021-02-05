@@ -16,6 +16,7 @@
 /* ----------------------------------------------- */
 @import '../components/Intro/Intro.css';
 @import '../components/GameboardSetup/GameboardSetup.css';
+@import '../components//PlayGame/PlayGame.css';
 
 html,
 body,
@@ -39,6 +40,8 @@ main {
 	margin: 0 auto;
 }
 
+/* Ships Positions Styles */
+/* ----------------------------------------------- */
 .shipPlaced {
 	background-color: aquamarine;
 }
@@ -51,6 +54,8 @@ main {
 	background-color: blueviolet;
 }
 
+/* Text Colors */
+/* ----------------------------------------------- */
 .whiteText {
 	color: #f0edff;
 }
@@ -59,6 +64,8 @@ main {
 	color: red;
 }
 
+/* Text Sizes */
+/* ----------------------------------------------- */
 .text15 {
 	font-size: 1.5rem;
 }
@@ -67,6 +74,8 @@ main {
 	font-size: 2.9rem;
 }
 
+/* Text Fonts */
+/* ----------------------------------------------- */
 .robotoText {
 	font-family: 'Roboto Condensed', sans-serif;
 }
@@ -75,6 +84,8 @@ main {
 	font-family: 'Anton', sans-serif;
 }
 
+/* Buttons */
+/* ----------------------------------------------- */
 .buttonContainer {
 	margin-top: 50px;
 }
@@ -84,24 +95,20 @@ button {
 	height: 58px;
 }
 
+.btn-primary.disabled,
+.btn-primary:disabled,
+.btn-primary:not(:disabled):not(.disabled):active:focus,
+.btn-primary:active,
+.btn-primary:not(:disabled):not(.disabled):active,
+.btn-primary:focus,
 .btn-primary {
-	background-color: #8f8cb8;
-	border-color: #8f8cb8;
+	background-color: #7f7baf;
+	border-color: #7f7baf;
+	box-shadow: 0 0 0 0.2rem #7f7baf;
 }
 
 .btn-primary:hover {
-	background-color: #7f7baf;
-	border-color: #7f7baf;
-}
-
-.btn-primary:active,
-.btn-primary:not(:disabled):not(.disabled):active {
-	background-color: #7f7baf;
-	border-color: #7f7baf;
-}
-
-.btn-primary.disabled,
-.btn-primary:disabled {
-	background-color: #7f7baf;
-	border-color: #7f7baf;
+	background-color: #47418e;
+	border-color: #47418e;
+	box-shadow: 0 0 0 0.2rem #47418e;
 }

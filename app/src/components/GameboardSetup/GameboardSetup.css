@@ -40,3 +40,15 @@
 #rotateButtonContainer {
 	margin-bottom: 40px;
 }
+
+.hoverEffect {
+	background-color: black;
+}
+
+.hoverEffect:hover {
+	background-color: black;
+}
+
+.notAllowed:hover {
+	cursor: not-allowed;
+}
