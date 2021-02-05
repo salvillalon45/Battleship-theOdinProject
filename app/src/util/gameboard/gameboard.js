@@ -10,8 +10,6 @@ const GameBoardFactory = function () {
 	const missedShots = [];
 
 	function placeShip(coordinates) {
-		// console.log('Inside placeShip');
-		// console.log({ coordinates });
 		const shipObj = ShipFactory(coordinates);
 		shipArrayBoard.push(shipObj);
 	}
@@ -35,7 +33,6 @@ const GameBoardFactory = function () {
 					ship.shipArray[index] === 'hit'
 				) {
 					// Cannot hit the same coordinate
-					console.log('Enter cannot hit same coordiante flag');
 					repeatedMovedFlag = 1;
 				} else if (
 					shipCoord1 === hitCoord1 &&
@@ -43,7 +40,6 @@ const GameBoardFactory = function () {
 				) {
 					// We got a hit!
 					hitFlag = 1;
-					printToTerminal('We got a hit!');
 					ship.hit(index);
 				}
 			});
@@ -51,13 +47,11 @@ const GameBoardFactory = function () {
 
 		if (repeatedMovedFlag === 1) {
 			// Cannot hit the same coordinate
-			printToTerminal('// Cannot hit the same coordinate');
 			return 'Cannot Hit Same Coordinate';
 		}
 
 		if (hitFlag === 0) {
 			// We missed
-			printToTerminal('We missed');
 			missedShots.push(hitCoords);
 		}
 	}
@@ -67,65 +61,92 @@ const GameBoardFactory = function () {
 		return shipStatusArray.every((shipStatus) => shipStatus === true);
 	}
 
-	function calculateShipPlacement(shipLength, shipCoordinate) {
-		console.log('Inside calculateShipPlacement');
-		// console.log({ shipCoordinate });
-		// console.log({ shipLength });
+	function calculateShipPlacement(shipLength, shipCoordinate, rotateFlag) {
 		const coord1 = shipCoordinate[0];
 		const coord2 = shipCoordinate[1];
 		const placementCoordinates = [];
 		let coord = [];
+		let coordChange;
+		let coordSame;
 
-		const result = coord2 + (shipLength - 1);
-		let coord2Change = coord2;
-
-		for (let i = 0; i < shipLength; i++) {
-			coord.push(coord1);
-			coord.push(coord2Change);
-			placementCoordinates.push(coord);
-			coord = [];
-			coord2Change += 1;
+		if (rotateFlag) {
+			coordSame = coord2;
+			coordChange = coord1;
+		} else {
+			coordSame = coord1;
+			coordChange = coord2;
 		}
 
-		console.log({ placementCoordinates });
+		for (let i = 0; i < shipLength; i++) {
+			if (rotateFlag) {
+				coord.push(coordChange);
+				coord.push(coordSame);
+			} else {
+				coord.push(coordSame);
+				coord.push(coordChange);
+			}
+
+			placementCoordinates.push(coord);
+			coord = [];
+			coordChange += 1;
+		}
+
+		// for (let i = 0; i < shipLength; i++) {
+		// 	coord.push(coord1);
+		// 	coord.push(coord2Change);
+		// 	placementCoordinates.push(coord);
+		// 	coord = [];
+		// 	coord2Change += 1;
+		// }
 
 		return placementCoordinates;
 	}
 
-	function checkShipSetUpPlacement(coord1, coord2) {
-		console.log('Inside checkShipSetUpPlacement');
-		console.log({ shipArrayBoard });
-		console.log({ coord1, coord2 });
+	function checkShipSetUpPlacement(coord1, coord2, rotateFlag) {
 		for (let i = 0; i < shipArrayBoard.length; i++) {
 			const shipCoordinates = shipArrayBoard[i].coordinates;
 
 			for (let j = 0; j < shipCoordinates.length; j++) {
 				const coord1Check = shipCoordinates[j][0];
 				const coord2Check = shipCoordinates[j][1];
-				console.log({ coord1Check, coord2Check });
 
 				if (coord1Check === coord1 && coord2Check === coord2) {
-					console.log('SHIP HAS ALREAYD BEEN PLACED THER');
 					return true;
 				}
 			}
 		}
 
-		console.log('PLACE IT');
 		return false;
 	}
 
-	function checkValidPositionsHorizontal(coord1, coord2, shipLength) {
-		const spaceShipWillTakeOnGrid = coord2 + shipLength;
-		// console.log({ coord2, shipLength, spaceShipWillTakeOnGrid });
-		const canShipBePlacedThere = checkShipSetUpPlacement(coord1, coord2);
+	function checkValidPositionsHorizontal(
+		coord1,
+		coord2,
+		shipLength,
+		rotateFlag
+	) {
+		let spaceShipWillTakeOnGrid;
+		if (rotateFlag) {
+			spaceShipWillTakeOnGrid = coord1 + shipLength;
+		} else {
+			spaceShipWillTakeOnGrid = coord2 + shipLength;
+		}
+
+		const canShipBePlacedThere = checkShipSetUpPlacement(
+			coord1,
+			coord2,
+			rotateFlag
+		);
+
 		if (spaceShipWillTakeOnGrid <= 10 && !canShipBePlacedThere) {
-			// printToTerminal('You Can Place');
 			return true;
 		}
 
-		// printToTerminal('Cannot Place There');
 		return false;
+	}
+
+	function getRotatedCoords(coord1, coord2) {
+		return [coord2, coord1];
 	}
 
 	return {
@@ -135,7 +156,8 @@ const GameBoardFactory = function () {
 		shipArrayBoard,
 		missedShots,
 		calculateShipPlacement,
-		checkValidPositionsHorizontal
+		checkValidPositionsHorizontal,
+		getRotatedCoords
 	};
 };
 

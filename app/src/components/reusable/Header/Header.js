@@ -6,27 +6,29 @@
 // -----------------------------------------------
 
 // -----------------------------------------------
-// Redux
-// -----------------------------------------------
-
-// -----------------------------------------------
-// Necessary Imports
-// -----------------------------------------------
-
-// -----------------------------------------------
-// External Imports
+// Imports
+// Bootstrap
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
+import Image from 'react-bootstrap/Image';
+
+// Images
+import BattleshipHeader from './battleship_header.png';
 // -----------------------------------------------
 
 export default function Header() {
 	return (
-		<Container fluid>
+		<Container fluid className='headerContainer'>
 			<Row>
 				<Col>
-					<div className='headerContainer'>
-						<h1>Battleship</h1>
+					<div>
+						<Image
+							src={BattleshipHeader}
+							fluid
+							alt='battleship logo'
+						/>
+						{/* <img src={BattleshipHeader} alt='logp' /> */}
 					</div>
 				</Col>
 			</Row>

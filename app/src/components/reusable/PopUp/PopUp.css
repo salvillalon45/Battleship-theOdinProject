@@ -9,9 +9,11 @@
 .popup-container {
 	position: fixed;
 	bottom: 0;
+	right: -2px;
 	width: 100%;
 	height: 100%;
 	background-color: rgba(0, 0, 0, 0.8);
+	z-index: 1;
 }
 
 .popup {
@@ -20,17 +22,14 @@
 	background-color: #131a3d;
 	top: 50%;
 	left: 50%;
-	margin-top: -80px;
-	/*margin-left: -85px;*/
-	margin-left: -90px;
+	margin-top: -103px;
+	margin-left: -207px;
 	box-sizing: border-box;
 	color: white;
 	border-radius: 5px;
 	z-index: 2;
-	width: 220px;
 	border: none;
 	text-align: center;
 	display: inline-block;
 	font-size: 16px;
-	font-family: 'Roboto Slab', serif;
 }

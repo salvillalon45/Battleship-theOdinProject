@@ -3,3 +3,8 @@
 /* Header Styling */
 /* 
 /* ----------------------------------------------- */
+
+.headerContainer {
+	width: unset;
+	margin-top: 30px;
+}

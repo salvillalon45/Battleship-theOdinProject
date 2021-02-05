@@ -15,6 +15,7 @@
 
 // -----------------------------------------------
 // External Imports
+import { Fragment } from 'react';
 import Footer from '../Footer';
 import Header from '../Header';
 
@@ -23,12 +24,14 @@ import Header from '../Header';
 
 export default function Layout({ children }) {
 	return (
-		<div className='overallContainer'>
+		// <div className='overallContainer'>
+		<>
 			<Header />
 
 			<main>{children}</main>
 
 			<Footer />
-		</div>
+			{/* // </div> */}
+		</>
 	);
 }

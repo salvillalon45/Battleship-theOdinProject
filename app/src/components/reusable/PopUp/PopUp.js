@@ -12,11 +12,8 @@ import { React, useReducer, useEffect, useState } from 'react';
 
 // -----------------------------------------------
 // External Imports
-// import InputGroup from 'react-bootstrap/InputGroup';
-// import FormControl from 'react-bootstrap/FormControl';
-// import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
+
+// Bootstrap
 import Button from 'react-bootstrap/Button';
 // -----------------------------------------------
 
@@ -30,8 +27,15 @@ function PopUp(props) {
 	return (
 		<div className='popup-container'>
 			<div className='popup'>
-				<p>The Winner Is: {winner}</p>
-				<Button onClick={() => playAgain()}>Play Again?</Button>
+				<p className='whiteText text29 robotoText'>
+					The Winner Is: {winner}
+				</p>
+
+				<div className='buttonContainer'>
+					<Button className='text15' onClick={() => playAgain()}>
+						Play Again?
+					</Button>
+				</div>
 			</div>
 		</div>
 	);

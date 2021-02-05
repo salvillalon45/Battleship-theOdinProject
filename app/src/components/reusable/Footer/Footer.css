@@ -3,3 +3,18 @@
 /* Footer Styling */
 /* 
 /* ----------------------------------------------- */
+
+.footerContainer {
+	display: flex;
+	justify-content: space-evenly;
+	flex-shrink: 0;
+	background-color: #f0edff;
+	height: 7%;
+	padding: 20px;
+	margin-top: 60px;
+}
+
+.footerContainer p {
+	margin: auto;
+	font-size: 1.5rem;
+}

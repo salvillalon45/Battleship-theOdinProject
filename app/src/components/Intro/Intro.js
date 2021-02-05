@@ -7,11 +7,13 @@
 
 // -----------------------------------------------
 // Necessary Imports
-import { React, useReducer } from 'react';
+import { React, useReducer, useState } from 'react';
 // -----------------------------------------------
 
 // -----------------------------------------------
 // External Imports
+
+// Bootstrap
 import InputGroup from 'react-bootstrap/InputGroup';
 import FormControl from 'react-bootstrap/FormControl';
 import Container from 'react-bootstrap/Container';
@@ -24,9 +26,10 @@ function Intro(props) {
 	const [userInput, setUserInput] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
 		{
-			playerName: ''
+			playerName: 'YES'
 		}
 	);
+	const [nameRequired, setNameRequired] = useState(false);
 
 	function onChange(event) {
 		const { name } = event.target;
@@ -40,17 +43,21 @@ function Intro(props) {
 	function nextStep() {
 		const { playerName } = userInput;
 
-		props.setPlayerName(playerName);
-		props.handleNextStepChange(2);
+		if (playerName !== '') {
+			props.setPlayerName(playerName);
+			props.handleNextStepChange(2);
+		} else {
+			setNameRequired(true);
+		}
 	}
 
 	const { playerName } = userInput;
 
 	return (
-		<Container>
+		<Container className='introContainer'>
 			<Row>
 				<Col>
-					<InputGroup className='mb-3'>
+					<InputGroup size='lg'>
 						<FormControl
 							name='playerName'
 							placeholder='Enter Your Name!'
@@ -61,7 +68,17 @@ function Intro(props) {
 						/>
 					</InputGroup>
 
-					<Button onClick={() => nextStep()}>Start Game</Button>
+					<div className='nameContainer'>
+						<p className='redText text20 antonText'>
+							{nameRequired && 'Name Required!'}
+						</p>
+					</div>
+
+					<div className='buttonContainer'>
+						<Button className='text15' onClick={() => nextStep()}>
+							Start Game
+						</Button>
+					</div>
 				</Col>
 			</Row>
 		</Container>

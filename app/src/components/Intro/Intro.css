@@ -3,3 +3,28 @@
 /* Styling for first page the user sees */
 /* 
 /* ----------------------------------------------- */
+
+.introContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 100px;
+}
+
+.buttonContainer {
+	display: flex;
+	justify-content: center;
+}
+
+.nameContainer p {
+	font-family: 'Anton', sans-serif;
+}
+
+.nameContainer {
+	display: flex;
+	justify-content: center;
+	margin-top: 39px;
+}
+
+.input-group-lg > .form-control {
+	font-size: 1.85rem;
+}

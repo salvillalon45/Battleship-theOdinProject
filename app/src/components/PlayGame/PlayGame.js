@@ -9,17 +9,19 @@
 
 // -----------------------------------------------
 // Necessary Imports
-import { React, useReducer, useEffect, useState } from 'react';
+import { React, useReducer, useEffect, useState, useRef } from 'react';
 // -----------------------------------------------
 
 // -----------------------------------------------
 // External Imports
-// import InputGroup from 'react-bootstrap/InputGroup';
-// import FormControl from 'react-bootstrap/FormControl';
-// import Container from 'react-bootstrap/Container';
-// import Row from 'react-bootstrap/Row';
-// import Col from 'react-bootstrap/Col';
+
+// Bootstrap
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+
+// Reusable
 import PopUp from '../reusable/PopUp';
 // -----------------------------------------------
 
@@ -30,13 +32,7 @@ import { PlayerFactory, ComputerFactory } from '../../util/player';
 
 function PlayGame(props) {
 	const { playerGameboard, computerGameboard, playerName } = props;
-	// let { grid } = props;
-	// let { uiGrid } = props;
-	// let { pcGrid } = props;
-	// let { pcUIGrid } = props;
 	const [winner, setWinner] = useState('');
-	const [playerTurn, setPlayerTurn] = useState(true);
-	const [computerTurn, setComputerTurn] = useState(false);
 	const [grids, setGrids] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
 		{
@@ -46,12 +42,24 @@ function PlayGame(props) {
 			pcGrid: props.pcGrid
 		}
 	);
+	const [playerTurn, _setPlayerTurn] = useState(true);
+	const playerTurnRef = useRef(playerTurn);
+	const setPlayerTurn = (data) => {
+		playerTurnRef.current = data;
+		_setPlayerTurn(data);
+	};
+	const [computerTurn, _setComputerTurn] = useState(false);
+	const computerTurnRef = useRef(computerTurn);
+	const setComputerTurn = (data) => {
+		computerTurnRef.current = data;
+		_setComputerTurn(data);
+	};
+
 	const humanPlayer = PlayerFactory();
 	const computerPlayer = ComputerFactory();
 
 	function updateGrid(gameboard, gridType) {
 		const { grid, pcGrid } = grids;
-		console.log(gameboard);
 
 		gameboard.shipArrayBoard.map((ship) => {
 			ship.shipArray.map((shipCoordinate, index) => {
@@ -74,9 +82,6 @@ function PlayGame(props) {
 		});
 
 		gameboard.missedShots.map((missedCoordinate) => {
-			console.log('what missedCoordinate');
-			console.log(missedCoordinate);
-
 			const coord1 = missedCoordinate[0];
 			const coord2 = missedCoordinate[1];
 
@@ -135,10 +140,8 @@ function PlayGame(props) {
 
 	function checkWinner() {
 		if (computerGameboard.reportSunkShips()) {
-			console.log('HUMAN PLAYER WINS!');
 			setWinner(playerName);
 		} else if (playerGameboard.reportSunkShips()) {
-			console.log('COMPUTER PLAYER WINS!');
 			setWinner('Computer');
 		} else {
 			setWinner('');
@@ -146,50 +149,87 @@ function PlayGame(props) {
 	}
 
 	function determineTurn() {
-		setPlayerTurn(!playerTurn);
-		setComputerTurn(!computerTurn);
+		setPlayerTurn(!playerTurnRef.current);
+		setComputerTurn(!computerTurnRef.current);
+	}
+
+	function computerMove() {
+		if (playerTurn === false && computerTurn && winner === '') {
+			const coord1 = Math.floor(Math.random() * Math.floor(9));
+			const coord2 = Math.floor(Math.random() * Math.floor(9));
+
+			const attackCoordinates = [coord1, coord2];
+			computerPlayer.sendAttack(playerGameboard, attackCoordinates);
+
+			updateGrid(playerGameboard, 'grid');
+			updateUIGrid('grid');
+			checkWinner();
+			determineTurn();
+		}
 	}
 
 	useEffect(() => {
+		updateUIGrid('pcGrid');
+
 		const gameCellArray = Array.from(document.querySelectorAll('.cell'));
 
 		for (let i = 0; i < gameCellArray.length; i++) {
 			const cell = gameCellArray[i];
-			cell.addEventListener('click', function () {
-				const coord1 = Number(cell.id.split('')[0]);
-				const coord2 = Number(cell.id.split('')[1]);
 
-				const attackCoordinates = [coord1, coord2];
-				humanPlayer.sendAttack(computerGameboard, attackCoordinates);
+			cell.addEventListener('click', function (event) {
+				event.stopImmediatePropagation();
 
-				updateGrid(computerGameboard, 'pcGrid');
-				updateUIGrid('pcGrid');
-				checkWinner();
-				determineTurn();
+				if (playerTurnRef.current) {
+					const coord1 = Number(cell.id.split('')[0]);
+					const coord2 = Number(cell.id.split('')[1]);
+
+					const attackCoordinates = [coord1, coord2];
+					humanPlayer.sendAttack(
+						computerGameboard,
+						attackCoordinates
+					);
+
+					updateGrid(computerGameboard, 'pcGrid');
+					updateUIGrid('pcGrid');
+					checkWinner();
+					determineTurn();
+				}
 			});
 		}
 	}, []);
 
-	const { grid, pcGrid, uiGrid, pcUIGrid } = grids;
+	const { uiGrid, pcUIGrid } = grids;
 
 	return (
-		<div className='playGameContainer'>
-			{console.log('What is pcGrid')}
-			{console.log(pcGrid)}
-			<p>{playerName}</p>
+		<Container className='playGameContainer'>
+			<Row>
+				<Col>
+					<p className='whiteText text29 robotoText'>{playerName}</p>
+					<p>{winner}</p>
 
-			<p>{winner}</p>
+					{computerMove()}
 
-			{winner && (
-				<PopUp
-					winner={winner}
-					handleNextStepChange={props.handleNextStepChange}
-				/>
-			)}
+					{winner && (
+						<PopUp
+							winner={winner}
+							handleNextStepChange={props.handleNextStepChange}
+						/>
+					)}
+				</Col>
+			</Row>
 
-			<div className='table'>{uiGrid}</div>
-			<div className='table'>{pcUIGrid}</div>
-		</div>
+			<Row>
+				<Col>
+					<div className='table'>{uiGrid}</div>
+				</Col>
+			</Row>
+
+			<Row>
+				<Col>
+					<div className='table'>{pcUIGrid}</div>
+				</Col>
+			</Row>
+		</Container>
 	);
 }
 

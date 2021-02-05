@@ -1,3 +1,4 @@
+/* eslint-disable prefer-destructuring */
 // -----------------------------------------------
 //
 // GameboardSetup -> GameboardSetup.js
@@ -18,7 +19,12 @@ import {
 // -----------------------------------------------
 
 // -----------------------------------------------
-// External Imports
+// Imports
+
+// Bootstrap
+import Container from 'react-bootstrap/Container';
+import Row from 'react-bootstrap/Row';
+import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 // -----------------------------------------------
 
@@ -32,22 +38,6 @@ const playerGameboard = GameBoardFactory();
 
 function GameboardSetup(props) {
 	const { playerName } = props;
-	// playerGameboard.placeShip([
-	// 	[0, 0],
-	// 	[0, 1],
-	// 	[0, 2],
-	// 	[0, 3]
-	// ]);
-	// playerGameboard.placeShip([
-	// 	[2, 0],
-	// 	[2, 1],
-	// 	[2, 2]
-	// ]);
-	// playerGameboard.placeShip([
-	// 	[4, 0],
-	// 	[4, 1]
-	// ]);
-	// playerGameboard.placeShip([[6, 0]]);
 	const computerGameboard = GameBoardFactory();
 	computerGameboard.placeShip([
 		[7, 0],
@@ -83,6 +73,7 @@ function GameboardSetup(props) {
 		submarine: [3, 1],
 		destroyer: [2, 1]
 	});
+
 	const shipsRef = useRef(ships);
 	const setShips = (shipName, shipAvailability) => {
 		shipsRef.current[shipName][1] = shipAvailability;
@@ -95,6 +86,13 @@ function GameboardSetup(props) {
 	const setShipName = (data) => {
 		shipNameRef.current = data;
 		_setShipName(data);
+	};
+
+	const [rotate, _setRotate] = useState(false);
+	const rotateRef = useRef(rotate);
+	const setRotate = (data) => {
+		rotateRef.current = data;
+		_setRotate(data);
 	};
 
 	function createGrid(gridType) {
@@ -200,10 +198,9 @@ function GameboardSetup(props) {
 	}
 
 	function nextStep() {
-		console.log('Inside nextStep()');
 		const { uiGrid, grid, pcGrid, pcUIGrid } = grids;
+
 		props.handleGridSetUp(uiGrid, grid, pcUIGrid, pcGrid);
-		console.log(playerGameboard);
 		props.handleGameSetUp(playerGameboard, computerGameboard);
 		setUpGridWithBoats(computerGameboard.shipArrayBoard, 'pcGrid');
 		props.handleNextStepChange(3);
@@ -211,111 +208,41 @@ function GameboardSetup(props) {
 
 	function nextShipToUse() {
 		const shipEntries = Object.entries(shipsRef.current);
-		let lengthToUse;
 
 		for (let i = 0; i < 5; i++) {
 			const shipObj = shipEntries[i];
 			const name = shipObj[0];
-			// const shipLength = shipObj[1][0];
+			const shipLength = shipObj[1][0];
 			const shipAvailability = shipObj[1][1];
 
-			console.log('Retrieve Info');
-			console.log({ name, shipAvailability });
-
 			if (name === 'carrier' && shipAvailability) {
-				printToTerminal('It is Carrier');
-
-				// console.log('What are ships before set()');
-				// console.log(ships);
-				// console.log(ships[name]);
-				// setCarrier({
-				// 	carrier: 0
-				// });
-				// setShips({
-				// 	carrier: 0;
-				// });
-				// setShips({
-				// 	[name]: 0
-				// });
-				// ships.carrier = 0;
 				setShips(name, 0);
-				// ships.carrier[1] = 0;
 				setShipName('battleship');
-				// console.log('What are ships after set');
-				// console.log(ships);
-				// console.log(ships[name]);
-				lengthToUse = 5;
-				// setShips({
-				// 	carrier: 0
-				// });
-				return lengthToUse;
+
+				return shipLength;
 			}
 			if (name === 'battleship' && shipAvailability) {
-				printToTerminal('It is Battleship');
-				// setShips({
-				// 	[name]: 0
-				// });
-				// setShips({
-				// 	battleship: 0
-				// });
 				setShips(name, 0);
-				// ships.battleship[1] = 0;
 				setShipName('cruiser');
-				// console.log('What are ships');
-				// console.log(ships);
-				// console.log(ships[name]);
-				lengthToUse = 4;
-				return lengthToUse;
+
+				return shipLength;
 			}
 			if (name === 'cruiser' && shipAvailability) {
-				printToTerminal('It is cruiser');
-				// setShips({
-				// 	[name]: 0
-				// });
-				// setShips({
-				// 	cruiser: 0
-				// });
 				setShips(name, 0);
-				// ships.cruiser[1] = 0;
 				setShipName('submarine');
-				// console.log('What are ships');
-				// console.log(ships);
-				// console.log(ships[name]);
-				lengthToUse = 3;
-				return lengthToUse;
+
+				return shipLength;
 			}
 			if (name === 'submarine' && shipAvailability) {
-				printToTerminal('It is Submarine');
-				// setShips({
-				// 	[name]: 0
-				// });
-				// setShips({
-				// 	submarine: 0
-				// });
 				setShips(name, 0);
-				// ships.submarine[1] = 0;
 				setShipName('destroyer');
-				// console.log('What are ships');
-				// console.log(ships);
-				// console.log(ships[name]);
-				lengthToUse = 3;
-				return lengthToUse;
+
+				return shipLength;
 			}
 			if (name === 'destroyer' && shipAvailability) {
-				printToTerminal('It is Destroyer');
-				// setShips({
-				// 	[name]: 0
-				// });
-				// setShips({
-				// 	destroyer: 0
-				// });
 				setShips(name, 0);
-				// ships.destroyer[1] = 0;
-				// console.log('What are ships');
-				// console.log(ships);
-				// console.log(ships[name]);
-				lengthToUse = 2;
-				return lengthToUse;
+
+				return shipLength;
 			}
 		}
 	}
@@ -332,24 +259,24 @@ function GameboardSetup(props) {
 				const coord2 = Number(cell.id.split('')[1]);
 				const updatedShipName = shipNameRef.current;
 				const length = shipsRef.current[updatedShipName][0];
+				const rotateFlag = rotateRef.current;
 
 				if (
 					playerGameboard.checkValidPositionsHorizontal(
 						coord1,
 						coord2,
-						length
+						length,
+						rotateFlag
 					)
 				) {
 					const shipLength = nextShipToUse();
 					const placementCoordinates = playerGameboard.calculateShipPlacement(
 						shipLength,
-						[coord1, coord2]
+						[coord1, coord2],
+						rotateFlag
 					);
-					console.log('placementCoordinates check');
-					console.log(placementCoordinates);
+
 					playerGameboard.placeShip(placementCoordinates);
-					console.log('What is playerGameboard');
-					console.log(playerGameboard);
 					setUpGridWithBoats(playerGameboard.shipArrayBoard, 'grid');
 				}
 			});
@@ -376,32 +303,49 @@ function GameboardSetup(props) {
 	const { uiGrid } = grids;
 
 	return (
-		<div className='gameboardSetupContainer'>
-			{/* {printToTerminal(playerGameboard)} */}
-			<p>{playerName}, Place Your Boats</p>
+		<Container className='gameboardSetupContainer'>
+			<Row>
+				<Col>
+					<div className='setUpTextContainer'>
+						<p className='whiteText text29 robotoText'>
+							{playerName}, Place Your Boats
+						</p>
 
-			<p>Place {shipName} on the board</p>
-			<div className='table'>{uiGrid}</div>
+						<p className='whiteText text29 robotoText'>
+							Place {shipName} on the board
+						</p>
 
-			{/* <Button
-				onClick={() => {
-					// setUpGridWithBoats(playerGameboard.shipArrayBoard, 'grid');
-					setUpGridWithBoats(
-						computerGameboard.shipArrayBoard,
-						'pcGrid'
-					);
-				}}
-			>
-				Place Ship
-			</Button> */}
+						<div
+							className='buttonContainer'
+							id='rotateButtonContainer'
+						>
+							<Button
+								className='text15'
+								onClick={() => setRotate(!rotate)}
+							>
+								Rotate
+							</Button>
+						</div>
+					</div>
+				</Col>
+			</Row>
 
-			<Button
-				disabled={!checkShipsHaveBeenPlaced()}
-				onClick={() => nextStep()}
-			>
-				Get Ready!
-			</Button>
-		</div>
+			<Row>
+				<Col>
+					<div className='table'>{uiGrid}</div>
+
+					<div className='buttonContainer'>
+						<Button
+							className='text15'
+							disabled={!checkShipsHaveBeenPlaced()}
+							onClick={() => nextStep()}
+						>
+							Get Ready To Play!
+						</Button>
+					</div>
+				</Col>
+			</Row>
+		</Container>
 	);
 }
 

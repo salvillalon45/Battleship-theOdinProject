@@ -6,19 +6,37 @@
 
 .cell {
 	display: table-cell;
-	border-right: 1px solid #000000;
-	border-bottom: 1px solid #000000;
-	width: 30px;
-	height: 30px;
+	border-right: 1px solid #8f8cb8;
+	border-bottom: 1px solid #8f8cb8;
+	width: 59px;
+	height: 50px;
 }
+
 .row {
 	display: table-row;
 	clear: both;
 	overflow: hidden;
 }
+
 .table {
 	display: table;
-	border-left: 1px solid #000000;
-	border-top: 1px solid #000000;
+	border-left: 1px solid #8f8cb8;
+	border-top: 1px solid #8f8cb8;
 	display: table;
+}
+
+.gameBoardSetupContainer {
+	display: flex;
+	flex-direction: column;
+	justify-content: center;
+	text-align: center;
+}
+
+.setUpTextContainer {
+	margin-top: 50px;
+	text-align: center;
+}
+
+#rotateButtonContainer {
+	margin-bottom: 40px;
 }
