@@ -13,7 +13,7 @@ import { React, useReducer, useEffect, useState, useRef } from 'react';
 // -----------------------------------------------
 
 // -----------------------------------------------
-// External Imports
+// Imports
 
 // Bootstrap
 import Container from 'react-bootstrap/Container';
@@ -23,16 +23,19 @@ import Button from 'react-bootstrap/Button';
 
 // Reusable
 import PopUp from '../reusable/PopUp';
+import Table from '../reusable/Table';
 // -----------------------------------------------
 
 // -----------------------------------------------
 // Util
 import { PlayerFactory, ComputerFactory } from '../../util/player';
+import { arrayAlreadyHasArray } from '../../util/helper/helper';
 // -----------------------------------------------
 
 function PlayGame(props) {
 	const { playerGameboard, computerGameboard, playerName } = props;
 	const [winner, setWinner] = useState('');
+	const [instructions, setInstructions] = useState(false);
 	const [grids, setGrids] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
 		{
@@ -115,7 +118,7 @@ function PlayGame(props) {
 
 				if (col === 2) {
 					shipStatus = 'shipAttacked';
-				} else if (col === 1) {
+				} else if (col === 1 && gridType === 'grid') {
 					shipStatus = 'shipPlaced';
 				} else if (col === 3) {
 					shipStatus = 'shipMissed';
@@ -159,25 +162,22 @@ function PlayGame(props) {
 			const coord2 = Math.floor(Math.random() * Math.floor(9));
 
 			const attackCoordinates = [coord1, coord2];
-			computerPlayer.sendAttack(playerGameboard, attackCoordinates);
+			if (
+				arrayAlreadyHasArray(computerGameboard, attackCoordinates) ===
+				false
+			) {
+				computerPlayer.sendAttack(playerGameboard, attackCoordinates);
 
-			updateGrid(playerGameboard, 'grid');
-			updateUIGrid('grid');
-			checkWinner();
-			determineTurn();
+				updateGrid(playerGameboard, 'grid');
+				updateUIGrid('grid');
+				checkWinner();
+				determineTurn();
+			}
 		}
 	}
 
-	function removeComputerGridPlacedShips(gridType) {
-		if (gridType === 'pcGrid') {
-			const gameCellArray = Array.from(
-				document.querySelectorAll('.cell')
-			);
-
-			for (let i = 0; i < gameCellArray.length; i++) {
-				cell.remove;
-			}
-		}
+	function generateInstructionsPopUp(value) {
+		setInstructions(value);
 	}
 
 	useEffect(() => {
@@ -216,15 +216,12 @@ function PlayGame(props) {
 		<Container className='playGameContainer'>
 			<Row>
 				<Col>
-					<p className='whiteText text29 robotoText'>
-						{playerName}, make your move!
-					</p>
-
 					{computerMove()}
-
 					{winner && (
 						<PopUp
-							winner={winner}
+							text={`The Winner Is: ${{ winner }}`}
+							nextStepText='Play Again?'
+							step={1}
 							handleNextStepChange={props.handleNextStepChange}
 						/>
 					)}
@@ -233,19 +230,40 @@ function PlayGame(props) {
 
 			<Row>
 				<Col>
-					<div className='table'>{uiGrid}</div>
+					<div className='buttonContainer'>
+						<Button onClick={() => generateInstructionsPopUp(true)}>
+							Click Here For Instructions
+						</Button>
+
+						{instructions && (
+							<PopUp
+								step={4}
+								nextStepText='Go back to game'
+								instructions={1}
+								generateInstructionsPopUp={
+									generateInstructionsPopUp
+								}
+							/>
+						)}
+					</div>
 				</Col>
 			</Row>
 
 			<Row>
 				<Col>
 					<p className='whiteText text29 robotoText'>
+						{playerName}, make your move!
+					</p>
+
+					<Table grid={uiGrid} />
+				</Col>
+
+				<Col>
+					<p className='whiteText text29 robotoText'>
 						Computer Board
 					</p>
 
-					<div className='table' id='computerGrid'>
-						{pcUIGrid}
-					</div>
+					<Table grid={pcUIGrid} id='computerGrid' />
 				</Col>
 			</Row>
 		</Container>

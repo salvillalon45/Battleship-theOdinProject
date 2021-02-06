@@ -11,7 +11,7 @@ import { React, useReducer, useState } from 'react';
 // -----------------------------------------------
 
 // -----------------------------------------------
-// External Imports
+// Imports
 
 // Bootstrap
 import InputGroup from 'react-bootstrap/InputGroup';

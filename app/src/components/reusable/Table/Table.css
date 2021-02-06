@@ -1,0 +1,45 @@
+/* ----------------------------------------------- */
+/* 
+/* Table Styling */
+/* 
+/* ----------------------------------------------- */
+
+.cell {
+	display: table-cell;
+	border-right: 1px solid #8f8cb8;
+	border-bottom: 1px solid #8f8cb8;
+	width: 59px;
+	height: 50px;
+}
+
+.table .row {
+	display: table-row;
+	clear: both;
+	overflow: hidden;
+}
+
+.table th {
+	display: table-cell;
+	border-right: 1px solid #8f8cb8;
+	border-bottom: 1px solid #8f8cb8;
+	border-top: unset;
+	width: 59px;
+	height: 50px;
+	color: white;
+}
+
+.table {
+	display: table;
+	border-left: 1px solid #8f8cb8;
+	border-top: 1px solid #8f8cb8;
+	text-align: center;
+}
+
+.gridContainer {
+	display: flex;
+}
+
+.numberContainer {
+	display: flex;
+	flex-direction: column;
+}

@@ -1,3 +1,4 @@
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable prefer-destructuring */
 // -----------------------------------------------
 //
@@ -26,6 +27,10 @@ import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
+
+// Reusable
+import PopUp from '../reusable/PopUp';
+import Table from '../reusable/Table';
 // -----------------------------------------------
 
 // -----------------------------------------------
@@ -39,21 +44,32 @@ function GameboardSetup(props) {
 	const { playerName } = props;
 	const computerGameboard = GameBoardFactory();
 	computerGameboard.placeShip([
+		[0, 0],
+		[1, 0],
+		[2, 0],
+		[3, 0],
+		[4, 0]
+	]);
+	computerGameboard.placeShip([
+		[6, 6],
+		[7, 6],
+		[8, 6],
+		[9, 6]
+	]);
+	computerGameboard.placeShip([
 		[7, 0],
 		[7, 1],
-		[7, 2],
-		[7, 3]
+		[7, 2]
+	]);
+	computerGameboard.placeShip([
+		[3, 3],
+		[3, 4],
+		[3, 5]
 	]);
 	computerGameboard.placeShip([
 		[9, 0],
-		[9, 1],
-		[9, 2]
+		[9, 1]
 	]);
-	computerGameboard.placeShip([
-		[8, 5],
-		[8, 6]
-	]);
-	computerGameboard.placeShip([[6, 7]]);
 
 	const [grids, setGrids] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
@@ -93,7 +109,6 @@ function GameboardSetup(props) {
 		_setRotate(data);
 	};
 
-	// This function allows us to
 	function createGrid(gridType) {
 		const rows = [];
 		let cols;
@@ -133,7 +148,7 @@ function GameboardSetup(props) {
 				const id = String(rowIndex) + String(colIndex);
 				let shipStatus = '';
 
-				if (col === 1) {
+				if (col === 1 && gridType === 'grid') {
 					shipStatus = 'shipPlaced';
 				}
 
@@ -261,7 +276,7 @@ function GameboardSetup(props) {
 				const rotateFlag1 = rotateRef.current;
 
 				if (
-					playerGameboard.checkValidPositionsHorizontal(
+					playerGameboard.checkValidPositions(
 						coord1,
 						coord2,
 						length,
@@ -348,6 +363,14 @@ function GameboardSetup(props) {
 		return shipEntries.every((shipObj) => shipObj[1][1] === 0);
 	}
 
+	function checkNextStep() {
+		if (checkShipsHaveBeenPlaced() && nextStep()) {
+			return true;
+		}
+
+		return false;
+	}
+
 	useEffect(() => {
 		setUpPlayerGrid();
 		setUpComputerGrid();
@@ -365,12 +388,16 @@ function GameboardSetup(props) {
 			<Row>
 				<Col>
 					<div className='setUpTextContainer'>
-						<p className='whiteText text29 robotoText'>
-							{playerName}, Place Your Boats
-						</p>
+						<b>
+							<p className='whiteText text29 robotoText'>
+								{checkShipsHaveBeenPlaced()
+									? 'Your Ships Are Set!'
+									: `${playerName} Place Your Boats`}
+							</p>
+						</b>
 
 						<p className='whiteText text29 robotoText'>
-							Place {shipName} on the board
+							Place <b>{shipName}</b> on the board
 						</p>
 
 						<div
@@ -388,9 +415,20 @@ function GameboardSetup(props) {
 				</Col>
 			</Row>
 
+			<Row id='tableRow'>
+				<Col>
+					<Table grid={uiGrid} />
+				</Col>
+			</Row>
+
 			<Row>
 				<Col>
-					<div className='table'>{uiGrid}</div>
+					<div>
+						<p className='whiteText text29 robotoText'>
+							{checkShipsHaveBeenPlaced() &&
+								'Now click on the button below to play'}
+						</p>
+					</div>
 
 					<div className='buttonContainer'>
 						<Button

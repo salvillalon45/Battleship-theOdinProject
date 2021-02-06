@@ -119,12 +119,7 @@ const GameBoardFactory = function () {
 		return false;
 	}
 
-	function checkValidPositionsHorizontal(
-		coord1,
-		coord2,
-		shipLength,
-		rotateFlag
-	) {
+	function checkValidPositions(coord1, coord2, shipLength, rotateFlag) {
 		let spaceShipWillTakeOnGrid;
 		if (rotateFlag) {
 			spaceShipWillTakeOnGrid = coord1 + shipLength;
@@ -145,10 +140,6 @@ const GameBoardFactory = function () {
 		return false;
 	}
 
-	function getRotatedCoords(coord1, coord2) {
-		return [coord2, coord1];
-	}
-
 	return {
 		placeShip,
 		receiveAttack,
@@ -156,8 +147,7 @@ const GameBoardFactory = function () {
 		shipArrayBoard,
 		missedShots,
 		calculateShipPlacement,
-		checkValidPositionsHorizontal,
-		getRotatedCoords
+		checkValidPositions
 	};
 };
 
