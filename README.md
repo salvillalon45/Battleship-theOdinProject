@@ -4,7 +4,7 @@
 
 # Summary
 
-In this project, the main goal was to practice using Test Driven Development. This was valuable as I got to practice implementing the logic of the game using Jest and did not have to rely on creating a UI or making many console.log statements. Apart from this, I wanted to practice how to use React Hooks, creating reusable components, creating reusable css selectors, and how to set up a project using eslint and prettier. Also, I got to practice using React Bootstrap! Since I wanted to start using it instead of using the Bootstrap html framework
+In this project, the main goal was to practice using Test Driven Development. This was valuable as I got to practice implementing the logic of the game using Jest and did not have to rely on creating a UI or making many console.log statements. Apart from this, I wanted to practice how to use React Hooks, creating reusable components, creating reusable css selectors, and how to set up a project using eslint and prettier. Also, I got to practice using React Bootstrap! Since I wanted to start using it instead of using the Bootstrap html framework. One more thing was that I practiced creating a consistent comment structure for my files. Really excited what I came up with.
 
 This was a really great project! Below you can see some of the challenges I went through.
 
