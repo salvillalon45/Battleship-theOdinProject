@@ -1,17 +1,15 @@
 // -----------------------------------------------
 //
-// Reusable -> PopUp.js
+// reusable -> PopUp.js
 // Desc: PopUp to show who is the winner
 //
 // -----------------------------------------------
 
 // -----------------------------------------------
-// Necessary Imports
-import { React, useReducer, useEffect, useState, Fragment } from 'react';
-// -----------------------------------------------
-
-// -----------------------------------------------
 // External Imports
+
+// React
+import { React, useReducer, useEffect, useState, Fragment } from 'react';
 
 // Bootstrap
 import Button from 'react-bootstrap/Button';

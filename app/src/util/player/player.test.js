@@ -21,7 +21,7 @@ test('Human attacks Computer player', () => {
 		'hit',
 		'F1',
 		'G1',
-		'H1',
+		'H1'
 	]);
 });
 
@@ -32,7 +32,7 @@ test('Computer attacks Human Player', () => {
 		'hit',
 		'B1',
 		'C1',
-		'D1',
+		'D1'
 	]);
 });
 
@@ -43,7 +43,7 @@ test('Human misses attack to Computer player', () => {
 		'E1',
 		'F1',
 		'G1',
-		'H1',
+		'H1'
 	]);
 });
 
@@ -54,7 +54,7 @@ test('Computer misses attack to Human player', () => {
 		'A1',
 		'B1',
 		'C1',
-		'D1',
+		'D1'
 	]);
 });
 
@@ -69,7 +69,7 @@ test('Human destroys Computer player ships', () => {
 		'hit',
 		'hit',
 		'hit',
-		'hit',
+		'hit'
 	]);
 });
 
@@ -84,6 +84,6 @@ test.only('Computer destroys Human player ships', () => {
 		'hit',
 		'hit',
 		'hit',
-		'hit',
+		'hit'
 	]);
 });

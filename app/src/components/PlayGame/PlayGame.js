@@ -2,18 +2,16 @@
 /* eslint-disable react/jsx-one-expression-per-line */
 // -----------------------------------------------
 //
-// GameboardSetup -> GameboardSetup.js
-// Desc: Setup grid for the user
+// PlayGame -> PlayGame.js
+// Desc: Component to render game flow
 //
 // -----------------------------------------------
 
 // -----------------------------------------------
-// Necessary Imports
-import { React, useReducer, useEffect, useState, useRef } from 'react';
-// -----------------------------------------------
-
-// -----------------------------------------------
 // Imports
+
+// React
+import { React, useReducer, useEffect, useState, useRef } from 'react';
 
 // Bootstrap
 import Container from 'react-bootstrap/Container';
@@ -61,6 +59,10 @@ function PlayGame(props) {
 	const humanPlayer = PlayerFactory();
 	const computerPlayer = ComputerFactory();
 
+	// This function updates the grid or pcGrid based on changes made from moves.
+	// The numbers on the grid mean the following:
+	// - 2: means the ship has been attacked
+	// - 3: means the player missed
 	function updateGrid(gameboard, gridType) {
 		const { grid, pcGrid } = grids;
 
@@ -110,6 +112,10 @@ function PlayGame(props) {
 		}
 	}
 
+	// This function updates the uiGrid or pcUIGrid based on the values from the grid or pcGrid
+	// The numbers on the grid mean the following:
+	// - 2: means the ship has been attacked so we create the shipAttacked class
+	// - 3: means the player missed so we create the shipMissed class
 	function updateUIGrid(gridType) {
 		const result = grids[gridType].map((row, rowIndex) => {
 			const cells = row.map((col, colIndex) => {
@@ -118,7 +124,9 @@ function PlayGame(props) {
 
 				if (col === 2) {
 					shipStatus = 'shipAttacked';
-				} else if (col === 1 && gridType === 'grid') {
+				}
+				// Here we include && gridType === 'grid' so that we do not see the computer board
+				else if (col === 1 && gridType === 'grid') {
 					shipStatus = 'shipPlaced';
 				} else if (col === 3) {
 					shipStatus = 'shipMissed';
@@ -141,6 +149,7 @@ function PlayGame(props) {
 		}
 	}
 
+	// This function checks whether there is a winner
 	function checkWinner() {
 		if (computerGameboard.reportSunkShips()) {
 			setWinner(playerName);
@@ -151,31 +160,73 @@ function PlayGame(props) {
 		}
 	}
 
+	// This function determines who is turn it is
 	function determineTurn() {
 		setPlayerTurn(!playerTurnRef.current);
 		setComputerTurn(!computerTurnRef.current);
 	}
 
+	// This functions was an idea of how to make smart moves for the AI
+	function checkComputerMoveHasNotHitShipPreviously(attackCoordinates) {
+		for (let i = 0; i < computerGameboard.shipArrayBoard.length; i++) {
+			const ship = computerGameboard.shipArrayBoard[i];
+
+			for (let j = 0; j < ship.coordinates; j++) {
+				const shipCoord = ship.coordinates;
+
+				if (shipCoord === 'hit') {
+					const coord1 = shipCoord[0];
+					const coord2 = shipCoord[1];
+					const attC1 = attackCoordinates[0];
+					const attC2 = attackCoordinates[1];
+
+					if (coord1 === attC1 && coord2 === attC2) {
+						// The computer already hit this spot
+						console.log('// The computer already hit this spot');
+						return true;
+					}
+				}
+			}
+		}
+
+		// Computer has not this spot yet
+		console.log('// Computer has not this spot yet');
+		return false;
+	}
+
+	// This functions renders the computer move flow
 	function computerMove() {
 		if (playerTurn === false && computerTurn && winner === '') {
 			const coord1 = Math.floor(Math.random() * Math.floor(9));
 			const coord2 = Math.floor(Math.random() * Math.floor(9));
 
 			const attackCoordinates = [coord1, coord2];
-			if (
-				arrayAlreadyHasArray(computerGameboard, attackCoordinates) ===
-				false
-			) {
-				computerPlayer.sendAttack(playerGameboard, attackCoordinates);
+			// This code was an idea of how to help make the computer have better moves. My thought was
+			// I wanted to make the computer make a move based on whether it is not a missed shot and where they
+			// have hit that spot already
+			// But I think A better of way of thinking about it 'What are my available spots to make a move for the computer'
 
-				updateGrid(playerGameboard, 'grid');
-				updateUIGrid('grid');
-				checkWinner();
-				determineTurn();
-			}
+			// if (
+			// 	arrayAlreadyHasArray(
+			// 		computerGameboard.missedShots,
+			// 		attackCoordinates
+			// 	) === false &&
+			// 	checkComputerMoveHasNotHitShipPreviously(attackCoordinates) ===
+			// 		false
+			// ) {
+			computerPlayer.sendAttack(playerGameboard, attackCoordinates);
+
+			updateGrid(playerGameboard, 'grid');
+			updateUIGrid('grid');
+			checkWinner();
+			determineTurn();
+			// } else {
+			// 	determineTurn();
+			// }
 		}
 	}
 
+	// This function is used to generate the Instructions pop up
 	function generateInstructionsPopUp(value) {
 		setInstructions(value);
 	}
@@ -217,9 +268,10 @@ function PlayGame(props) {
 			<Row>
 				<Col>
 					{computerMove()}
+
 					{winner && (
 						<PopUp
-							text={`The Winner Is: ${{ winner }}`}
+							text={`The Winner Is: ${winner}`}
 							nextStepText='Play Again?'
 							step={1}
 							handleNextStepChange={props.handleNextStepChange}

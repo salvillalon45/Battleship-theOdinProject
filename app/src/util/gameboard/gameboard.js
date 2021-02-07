@@ -91,14 +91,6 @@ const GameBoardFactory = function () {
 			coordChange += 1;
 		}
 
-		// for (let i = 0; i < shipLength; i++) {
-		// 	coord.push(coord1);
-		// 	coord.push(coord2Change);
-		// 	placementCoordinates.push(coord);
-		// 	coord = [];
-		// 	coord2Change += 1;
-		// }
-
 		return placementCoordinates;
 	}
 

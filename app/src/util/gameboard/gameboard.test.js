@@ -14,7 +14,7 @@ test('Place ship in a coordinate', () => {
 		'A1',
 		'B1',
 		'C1',
-		'D1',
+		'D1'
 	]);
 });
 
@@ -62,11 +62,11 @@ test('All Ships are sunk', () => {
 	expect(gameboard2.shipArrayBoard[0].shipArray).toStrictEqual([
 		'hit',
 		'hit',
-		'hit',
+		'hit'
 	]);
 	expect(gameboard2.shipArrayBoard[1].shipArray).toStrictEqual([
 		'hit',
 		'hit',
-		'hit',
+		'hit'
 	]);
 });

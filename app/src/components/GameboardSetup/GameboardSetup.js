@@ -8,7 +8,9 @@
 // -----------------------------------------------
 
 // -----------------------------------------------
-// Necessary Imports
+// Imports
+
+// React
 import {
 	React,
 	useState,
@@ -17,10 +19,6 @@ import {
 	useLayoutEffect,
 	useRef
 } from 'react';
-// -----------------------------------------------
-
-// -----------------------------------------------
-// Imports
 
 // Bootstrap
 import Container from 'react-bootstrap/Container';
@@ -42,6 +40,8 @@ const playerGameboard = GameBoardFactory();
 
 function GameboardSetup(props) {
 	const { playerName } = props;
+
+	// Set up the grid for the computer
 	const computerGameboard = GameBoardFactory();
 	computerGameboard.placeShip([
 		[0, 0],
@@ -109,6 +109,7 @@ function GameboardSetup(props) {
 		_setRotate(data);
 	};
 
+	// This funtion creates the grid
 	function createGrid(gridType) {
 		const rows = [];
 		let cols;
@@ -128,6 +129,7 @@ function GameboardSetup(props) {
 		});
 	}
 
+	// This funtion creates the UI grid
 	function createUIGrid(gridType) {
 		const result = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((i) => {
 			const cells = [0, 1, 2, 3, 4, 5, 6, 7, 8, 9].map((j) => {
@@ -142,12 +144,15 @@ function GameboardSetup(props) {
 		});
 	}
 
+	// This will be change the UI grid (uiGrid or pcUIGrid) depending on the values of the grid or pcGrid
 	function updateUIGrid(gridType) {
 		const result = grids[gridType].map((row, rowIndex) => {
 			const cells = row.map((col, colIndex) => {
 				const id = String(rowIndex) + String(colIndex);
 				let shipStatus = '';
 
+				// Here we include && gridType === 'grid' so that in the PlayGame Component
+				// We do not see the computer board
 				if (col === 1 && gridType === 'grid') {
 					shipStatus = 'shipPlaced';
 				}
@@ -169,6 +174,7 @@ function GameboardSetup(props) {
 		}
 	}
 
+	// This function will set a 1 to a cell in grid or pcGrid. A 1 indicates a ship is placed there
 	function setUpGridWithBoats(shipsArray, gridType) {
 		const { grid, pcGrid } = grids;
 
@@ -201,16 +207,19 @@ function GameboardSetup(props) {
 		}
 	}
 
+	// This functions sets up the player grid
 	function setUpPlayerGrid() {
 		createGrid('grid');
 		createUIGrid('uiGrid');
 	}
 
+	// This functions sets up the computer grid
 	function setUpComputerGrid() {
 		createGrid('pcGrid');
 		createUIGrid('pcUIGrid');
 	}
 
+	// This function sets up everything so we are ready to render the next component in the flow
 	function nextStep() {
 		const { uiGrid, grid, pcGrid, pcUIGrid } = grids;
 
@@ -220,6 +229,7 @@ function GameboardSetup(props) {
 		props.handleNextStepChange(3);
 	}
 
+	// This function determines what ship to use when a player sets there ship on the grid
 	function nextShipToUse() {
 		const shipEntries = Object.entries(shipsRef.current);
 
@@ -261,6 +271,10 @@ function GameboardSetup(props) {
 		}
 	}
 
+	// This functions setups the event listeners that allow us to:
+	// - Place a ship on the grid
+	// - Hover over the grid and show us the length of the ship we are placing
+	// - Show a disabled circle when you cannot place the ship on the grid
 	function setUpEventListeners() {
 		const gameCellArray = Array.from(document.querySelectorAll('.cell'));
 
@@ -356,19 +370,11 @@ function GameboardSetup(props) {
 		}
 	}
 
+	// Here check if the ship Availability are zero. If they are zero, that means that
+	// All ships have been placed and we can proceed to play game
 	function checkShipsHaveBeenPlaced() {
-		// Here check if the ship Availability are zero. If they are zero, that means that
-		// All ships have been placed and we can proceed to play game
 		const shipEntries = Object.entries(ships);
 		return shipEntries.every((shipObj) => shipObj[1][1] === 0);
-	}
-
-	function checkNextStep() {
-		if (checkShipsHaveBeenPlaced() && nextStep()) {
-			return true;
-		}
-
-		return false;
 	}
 
 	useEffect(() => {
@@ -376,8 +382,8 @@ function GameboardSetup(props) {
 		setUpComputerGrid();
 	}, []);
 
+	// This helps us re-render the component so that I can add the event listeners
 	useLayoutEffect(() => {
-		// This helps us re-render the component so that I can add the event listeners
 		setUpEventListeners();
 	});
 

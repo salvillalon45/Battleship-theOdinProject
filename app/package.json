@@ -20,6 +20,7 @@
 		"start": "react-scripts start",
 		"build": "react-scripts build",
 		"test": "jest",
+		"deploy": "npm run build && cp build/index.html build/200.html && surge build theodinproject_battleship.surge.sh",
 		"eject": "react-scripts eject"
 	},
 	"eslintConfig": {
@@ -52,6 +53,7 @@
 		"eslint-plugin-prettier": "^3.1.4",
 		"eslint-plugin-react": "^7.21.5",
 		"eslint-plugin-react-hooks": "^4.2.0",
+		"gh-pages": "^3.1.0",
 		"prettier": "^2.1.2",
 		"url-loader": "^4.1.1"
 	}

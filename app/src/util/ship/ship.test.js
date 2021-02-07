@@ -1,6 +1,7 @@
 // --------------------------------------------------
 // Test for ship.js
 // --------------------------------------------------
+
 import ShipFactory from './ship';
 import printToTerminal from '../helper/helper';
 

@@ -1,11 +1,28 @@
+// -----------------------------------------------
+//
+// Components -> App.js
+// Desc: Main App Component
+//
+// -----------------------------------------------
+
+// -----------------------------------------------
+// Imports
+
+// React
 import { React, useState } from 'react';
+
+// Bootstrap
 import 'bootstrap/dist/css/bootstrap.min.css';
+
+// Styles
 import '../styles/global.css';
 
+// Reusable
 import Layout from './reusable/Layout';
 import Intro from './Intro';
 import GameboardSetup from './GameboardSetup';
 import PlayGame from './PlayGame';
+// -----------------------------------------------
 
 function App() {
 	const [nextStep, setNextStep] = useState('');

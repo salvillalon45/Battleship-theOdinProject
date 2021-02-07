@@ -1,17 +1,15 @@
 // -----------------------------------------------
 //
 // Intro -> Intro.js
-// Desc: Intro for the page
+// Desc: Intro to Battleship
 //
 // -----------------------------------------------
 
 // -----------------------------------------------
-// Necessary Imports
-import { React, useReducer, useState } from 'react';
-// -----------------------------------------------
-
-// -----------------------------------------------
 // Imports
+
+// React
+import { React, useReducer, useState } from 'react';
 
 // Bootstrap
 import InputGroup from 'react-bootstrap/InputGroup';
@@ -26,11 +24,12 @@ function Intro(props) {
 	const [userInput, setUserInput] = useReducer(
 		(state, newState) => ({ ...state, ...newState }),
 		{
-			playerName: 'YES'
+			playerName: ''
 		}
 	);
 	const [nameRequired, setNameRequired] = useState(false);
 
+	// This function is used to grab the value that the user enters on the input field
 	function onChange(event) {
 		const { name } = event.target;
 		const newValue = event.target.value;
@@ -40,6 +39,7 @@ function Intro(props) {
 		});
 	}
 
+	// This function sets up everything so we are ready to render the next component in the flow
 	function nextStep() {
 		const { playerName } = userInput;
 

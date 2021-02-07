@@ -1,37 +1,29 @@
 // -----------------------------------------------
 //
-// layouts -> layout.js
+// reusable -> layout.js
 // Desc: Reusable Layout for all pages
 //
 // -----------------------------------------------
 
 // -----------------------------------------------
-// Redux
-// -----------------------------------------------
+// Imports
 
-// -----------------------------------------------
-// Necessary Imports
-// -----------------------------------------------
-
-// -----------------------------------------------
-// External Imports
+// React
 import { Fragment } from 'react';
+
+// Reusable
 import Footer from '../Footer';
 import Header from '../Header';
-
-// import Favicon from '../public/favicon.ico';
 // -----------------------------------------------
 
 export default function Layout({ children }) {
 	return (
-		// <div className='overallContainer'>
 		<>
 			<Header />
 
 			<main>{children}</main>
 
 			<Footer />
-			{/* // </div> */}
 		</>
 	);
 }
