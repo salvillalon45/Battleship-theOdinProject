@@ -182,7 +182,6 @@ function PlayGame(props) {
 
 					if (coord1 === attC1 && coord2 === attC2) {
 						// The computer already hit this spot
-						console.log('// The computer already hit this spot');
 						return true;
 					}
 				}
@@ -190,7 +189,6 @@ function PlayGame(props) {
 		}
 
 		// Computer has not this spot yet
-		console.log('// Computer has not this spot yet');
 		return false;
 	}
 
