@@ -34,7 +34,7 @@ This was a really great project! Below you can see some of the challenges I went
 
         1. One potential cause is that the domain has been taken. This happened since I was trying to name my project [battleship.surge.sh](http://battleship.surge.sh). If you go the url you will see that the project has already been taken. Thanks to this article: [https://sunlightmedia.org/using-surge-for-deploying-static-sites/](https://sunlightmedia.org/using-surge-for-deploying-static-sites/)
         2. Then when I tried deploying I got an error where the page was blank so after looking around I found that you needed to add a 200.html file that contains the exact same code at index.html
-        3. To make everything easier, I found this command to makes deploying faster. You can add this to your package.json under the scripts object. Thanks to this stackoverflow post: [https://stackoverflow.com/questions/57823877/getting-blank-page-after-deploying-react-app-to-surge-sh](Thanks to this stackoverflow post:https://stackoverflow.com/questions/57823877/getting-blank-page-after-deploying-react-app-to-surge-sh)
+        3. To make everything easier, I found this command to makes deploying faster. You can add this to your package.json under the scripts object. Thanks to this stackoverflow post: [https://stackoverflow.com/questions/57823877/getting-blank-page-after-deploying-react-app-to-surge-sh](https://stackoverflow.com/questions/57823877/getting-blank-page-after-deploying-react-app-to-surge-sh)
 
         ```jsx
         "deploy": "npm run build && cp build/index.html build/200.html && surge build theodinproject_battleship.surge.sh",
