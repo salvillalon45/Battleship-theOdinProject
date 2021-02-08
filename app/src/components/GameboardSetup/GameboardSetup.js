@@ -1,3 +1,4 @@
+/* eslint-disable no-loop-func */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable prefer-destructuring */
 // -----------------------------------------------
@@ -36,7 +37,7 @@ import Table from '../reusable/Table';
 import GameBoardFactory from '../../util/gameboard';
 // -----------------------------------------------
 
-const playerGameboard = GameBoardFactory();
+let playerGameboard = GameBoardFactory();
 
 function GameboardSetup(props) {
 	const { playerName } = props;
@@ -226,6 +227,7 @@ function GameboardSetup(props) {
 		props.handleGridSetUp(uiGrid, grid, pcUIGrid, pcGrid);
 		props.handleGameSetUp(playerGameboard, computerGameboard);
 		setUpGridWithBoats(computerGameboard.shipArrayBoard, 'pcGrid');
+		playerGameboard = GameBoardFactory();
 		props.handleNextStepChange(3);
 	}
 
