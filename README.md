@@ -15,7 +15,7 @@ Apart from this, I wanted to practice how to use React Hooks, creating reusable 
 - useRef when trying to use state values inside event listeners
 
 ### Demo
-<img alt="Restaurant Demo" src="./battleship.gif" width="600" />
+<img alt="Battleship Demo" src="./battleship.gif" width="600" />
 
 ### 📗 Fonts used
 -   [Roboto Condensed](https://fonts.google.com/specimen/Roboto+Condensed?query=Roboto+Condensed)
