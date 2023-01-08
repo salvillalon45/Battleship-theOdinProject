@@ -1,12 +1,24 @@
-# theOdinProject-Battleship
-
-[TheOdinProject: Javascript] - Project: Battleship
+# Battleship
+[The Odin Project: Javascript] - Project: Battleship
 
 # Summary
+Created a player versus computer Battleship game. Players can set five ships and change the rotation of the ship placement
 
-In this project, the main goal was to practice using Test Driven Development. This was valuable as I got to practice implementing the logic of the game using Jest and did not have to rely on creating a UI or making many console.log statements. Apart from this, I wanted to practice how to use React Hooks, creating reusable components, creating reusable css selectors, and how to set up a project using eslint and prettier. Also, I got to practice using React Bootstrap! Since I wanted to start using it instead of using the Bootstrap html framework. One more thing was that I practiced creating a consistent comment structure for my files. Really excited what I came up with.
+In this project, the main goal was to practice using Test Driven Development. This was valuable as I got to practice implementing the logic of the game using Jest and did not have to rely on creating a UI or making many console.log statements. 
 
-This was a really great project! Below you can see some of the challenges I went through.
+Apart from this, I wanted to practice how to use React Hooks, creating reusable components, creating reusable css selectors, and how to set up a project using eslint and prettier. Also, I got to practice using React Bootstrap since I wanted to start using it instead of using the Bootstrap html framework. One more thing was that I practiced creating a consistent comment structure for my files. Really excited what I came up with.
+
+### Implementation 
+- Used Jest to implement Test Drive Development. First I created tests to see if the logic worked, then I focused on the UI
+- Implemented project using React. Created reusable components and CSS selectors
+- Built with useLayoutEffect to help render the application again when I am trying to make changes to the DOM
+- useRef when trying to use state values inside event listeners
+
+### Demo
+<img alt="Restaurant Demo" src="./battleship.gif" width="600" />
+
+### 📗 Fonts used
+-   [Roboto Condensed](https://fonts.google.com/specimen/Roboto+Condensed?query=Roboto+Condensed)
 
 # Lessons Learned
 
