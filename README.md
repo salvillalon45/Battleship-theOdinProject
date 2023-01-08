@@ -8,6 +8,9 @@ In this project, the main goal was to practice using Test Driven Development. Th
 
 Apart from this, I wanted to practice how to use React Hooks, creating reusable components, creating reusable css selectors, and how to set up a project using eslint and prettier. Also, I got to practice using React Bootstrap since I wanted to start using it instead of using the Bootstrap html framework. One more thing was that I practiced creating a consistent comment structure for my files. Really excited what I came up with.
 
+- Project Task: [The Odin Project - Battleship](https://www.theodinproject.com/lessons/battleship)
+- View Project: http://theodinproject_battleship.surge.sh/
+
 ### Implementation 
 - Used Jest to implement Test Drive Development. First I created tests to see if the logic worked, then I focused on the UI
 - Implemented project using React. Created reusable components and CSS selectors
@@ -51,8 +54,6 @@ Apart from this, I wanted to practice how to use React Hooks, creating reusable 
         ```jsx
         "deploy": "npm run build && cp build/index.html build/200.html && surge build theodinproject_battleship.surge.sh",
         ```
-
-You can find more on the project here: [The Odin Project - Battleship](https://www.theodinproject.com/lessons/battleship)
 
 # Technologies:
 
